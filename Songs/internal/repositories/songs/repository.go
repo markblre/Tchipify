@@ -21,7 +21,7 @@ func GetAllSongs() ([]models.Song, error) {
 	songs := []models.Song{}
 	for rows.Next() {
 		var data models.Song
-		err = rows.Scan(&data.Id, &data.Content)
+		err = rows.Scan(&data.Id, &data.Artist, &data.File_name, &data.Published_date, &data.Title)
 		if err != nil {
 			return nil, err
 		}
@@ -42,7 +42,7 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	helpers.CloseDB(db)
 
 	var song models.Song
-	err = row.Scan(&song.Id, &song.Content)
+	err = row.Scan(&song.Id, &song.Artist, &song.File_name, &song.Published_date, &song.Title)
 	if err != nil {
 		return nil, err
 	}
