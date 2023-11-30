@@ -7,6 +7,7 @@ import (
 )
 
 func GetAllCollections() ([]models.Collection, error) {
+	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
