@@ -6,7 +6,9 @@ import (
 
 type Collection struct {
 	Id      *uuid.UUID `json:"id"`
-	Content string     `json:"content"`
+	Name string     `json:"name"`
+	Username string     `json:"username"`
+	Date_inscription string     `json:"date_inscription"`
 }
 
 

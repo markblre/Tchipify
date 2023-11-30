@@ -30,9 +30,11 @@ func init() { // initialise la base de données
 		logrus.Fatalf("error while opening database : %s", err.Error())
 	}
 	schemes := []string{
-		`CREATE TABLE IF NOT EXISTS collections (
+		`CREATE TABLE IF NOT EXISTS Users (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
-			content VARCHAR(255) NOT NULL
+			name VARCHAR(255) NOT NULL,
+			username VARCHAR(255) NOT NULL,
+			date_inscription DATE NOT NULL
 		);`,
 	}
 	for _, scheme := range schemes {
