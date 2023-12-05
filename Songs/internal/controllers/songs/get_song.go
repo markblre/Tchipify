@@ -5,7 +5,7 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/repositories/songs"
+	"middleware/example/internal/services/songs"
 	"net/http"
 )
 
