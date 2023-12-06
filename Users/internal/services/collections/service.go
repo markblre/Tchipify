@@ -9,7 +9,6 @@ import (
 	"middleware/example/internal/models"
 	repository "middleware/example/internal/repositories/collections"
 	"net/http"
-	"fmt"
 )
 
 func GetAllCollections() ([]models.Collection, error) {
@@ -18,7 +17,6 @@ func GetAllCollections() ([]models.Collection, error) {
 	collections, err := repository.GetAllCollections()
 	// managing errors
 	if err != nil {
-		fmt.Println("cc,,")
 		logrus.Errorf("error retrieving collections : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
@@ -54,11 +52,9 @@ func PostAUser(user models.Collection) (*models.Collection, error) { // structur
 	// il creer un id 
 	id, err := uuid.NewV4()// génrer l'id
 	user.Id= &id
-	fmt.Println("%d", user.Id)
 	err =repository.PostAUser(user)
 	// managing errors
 	if err != nil {
-		fmt.Println("cc9")
 		logrus.Errorf("error retrieving collections : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
