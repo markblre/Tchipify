@@ -7,6 +7,7 @@ import (
 	"middleware/example/internal/helpers"
 	_ "middleware/example/internal/models"
 	"net/http"
+	
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 //ce qui l'Api autorise de faire 
 	r.Route("/collections", func(r chi.Router) {
 		r.Get("/", collections.GetCollections)
+		r.Post("/", collections.PostUser)
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(collections.Ctx) // le routeur appel la fonction 
 			r.Get("/", collections.GetCollection)

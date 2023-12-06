@@ -3,12 +3,12 @@ package models
 import (
 	"github.com/gofrs/uuid"
 )
-
+//normalement fini
 type Collection struct {
 	Id      *uuid.UUID `json:"id"`
 	Name string     `json:"name"`
 	Username string     `json:"username"`
-	Date_inscription string     `json:"date_inscription"`
+	DateInscription string     `json:"date_inscription"`
 }
 
 

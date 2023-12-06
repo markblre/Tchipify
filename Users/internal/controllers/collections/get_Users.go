@@ -35,7 +35,7 @@ func GetCollections(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collections)
+	body, _ := json.Marshal(collections)// je le veux en json 
 	_, _ = w.Write(body)
 	return
 }
