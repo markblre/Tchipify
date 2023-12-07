@@ -119,3 +119,19 @@ func PutSong(id uuid.UUID, artist string, file_name string, title string) (*mode
 
 	return &song, err
 }
+
+func DeleteSong(id uuid.UUID) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec("DELETE FROM songs WHERE id=?;", id.String())
+	if err != nil {
+		return err
+	}
+
+	helpers.CloseDB(db)
+
+	return err
+}
