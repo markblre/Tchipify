@@ -51,6 +51,12 @@ func PostAUser(user models.Collection) (*models.Collection, error) { // structur
 	var err error
 	// calling repository
 	// il creer un id 
+	if user.Name == "" || user.Username == ""{
+        return nil, &models.CustomError{
+            Message: "missing fields",
+            Code:    http.StatusUnprocessableEntity,
+        }
+    }
 	id, err := uuid.NewV4()// génrer l'id
 	user.Id= &id
 	user.DateInscription=time.Now()
@@ -84,4 +90,22 @@ func DeleteUserById(id uuid.UUID) ( error) {
 	}
 
 	return err
+}
+
+func PutAUser(user models.Collection) (*models.Collection, error) { // structure -> models.Collection
+	var err error
+	// calling repository
+	// il creer un id 
+	
+	err =repository.PutAUser(user)
+	// managing errors
+	if err != nil {
+		logrus.Errorf("error retrieving collections : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return repository.GetCollectionById(*user.Id)
 }
