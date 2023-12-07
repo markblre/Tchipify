@@ -9,6 +9,7 @@ import (
 	"middleware/example/internal/models"
 	repository "middleware/example/internal/repositories/collections"
 	"net/http"
+	"time"
 )
 
 func GetAllCollections() ([]models.Collection, error) {
@@ -52,6 +53,7 @@ func PostAUser(user models.Collection) (*models.Collection, error) { // structur
 	// il creer un id 
 	id, err := uuid.NewV4()// génrer l'id
 	user.Id= &id
+	user.DateInscription=time.Now()
 	err =repository.PostAUser(user)
 	// managing errors
 	if err != nil {
