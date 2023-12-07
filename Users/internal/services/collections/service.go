@@ -64,3 +64,22 @@ func PostAUser(user models.Collection) (*models.Collection, error) { // structur
 
 	return repository.GetCollectionById(id)
 }
+
+func DeleteUserById(id uuid.UUID) ( error) {
+	err := repository.DeleteUserById(id)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return  &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
+				Message: "collection not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("error retrieving collections : %s", err.Error())
+		return  &models.CustomError{
+			Message: "Something went wrong",
+			Code:    500,
+		}
+	}
+
+	return err
+}

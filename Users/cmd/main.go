@@ -19,6 +19,7 @@ func main() {
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(collections.Ctx) // le routeur appel la fonction 
 			r.Get("/", collections.GetCollection)
+			r.Delete("/", collections.DeleteUser)
 		})
 	})
 

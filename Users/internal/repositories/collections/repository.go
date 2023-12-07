@@ -50,7 +50,7 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	return &collection, err
 }
 
-func PostAUser(user models.Collection) ( error) {// un seul User 
+func PostAUser(user models.Collection) (error) {// un seul User 
 	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -62,4 +62,18 @@ func PostAUser(user models.Collection) ( error) {// un seul User
 	helpers.CloseDB(db)
 
 	return  err2
+}
+
+func DeleteUserById(id uuid.UUID) (error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return  err
+	}
+	_,err = db.Exec("DELETE FROM Users WHERE id=?", id.String())
+	helpers.CloseDB(db)
+	
+	if err != nil {
+		return  err
+	}
+	return err
 }
