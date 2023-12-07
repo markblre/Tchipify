@@ -13,7 +13,7 @@ import (
 // @Summary      Post a song.
 // @Description  Post a song.
 // @Success      200            {array}  models.Song
-// @Failure      400             "Missing fields"
+// @Failure      422             "missing fields"
 // @Failure      500             "Something went wrong"
 // @Router       /songs [post]
 func PostSong(w http.ResponseWriter, r *http.Request) {

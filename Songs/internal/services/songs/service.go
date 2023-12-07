@@ -58,7 +58,7 @@ func PostSong(artist string, file_name string, title string) (*models.Song, erro
 	if artist == "" || file_name == "" || title == "" {
 		return nil, &models.CustomError{
 			Message: "missing fields",
-			Code:    http.StatusBadRequest,
+			Code:    http.StatusUnprocessableEntity,
 		}
 	}
 
@@ -77,8 +77,8 @@ func PostSong(artist string, file_name string, title string) (*models.Song, erro
 func PutSong(id uuid.UUID, artist string, file_name string, title string) (*models.Song, error) {
 	if artist == "" || file_name == "" || title == "" {
 		return nil, &models.CustomError{
-			Message: "Missing fields",
-			Code:    http.StatusBadRequest,
+			Message: "missing fields",
+			Code:    http.StatusUnprocessableEntity,
 		}
 	}
 
