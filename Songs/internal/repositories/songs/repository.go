@@ -96,10 +96,28 @@ func PutSong(id uuid.UUID, artist string, file_name string, title string) (*mode
 		return nil, err
 	}
 
-	_, err = tx.Exec("UPDATE songs SET artist=?, file_name=?, title=? WHERE id=?;", artist, file_name, title, id.String())
-	if err != nil {
-		tx.Rollback()
-		return nil, err
+	if artist != "" {
+		_, err = tx.Exec("UPDATE songs SET artist=? WHERE id=?;", artist, id.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+
+	if file_name != "" {
+		_, err = tx.Exec("UPDATE songs SET file_name=? WHERE id=?;", file_name, id.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+
+	if title != "" {
+		_, err = tx.Exec("UPDATE songs SET title=? WHERE id=?;", title, id.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
 	}
 
 	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", id.String())

@@ -14,7 +14,6 @@ import (
 // @Summary      Modify a song.
 // @Description  Modify a song.
 // @Success      200            {array}  models.Song
-// @Failure      422             "missing fields"
 // @Failure      422             "Cannot parse id"
 // @Failure      500             "Something went wrong"
 // @Router       /song/{id} [put]
