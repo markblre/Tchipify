@@ -20,6 +20,7 @@ func main() {
 			r.Use(collections.Ctx) // le routeur appel la fonction 
 			r.Get("/", collections.GetCollection)
 			r.Delete("/", collections.DeleteUser)
+			r.Put("/", collections.PutUser)
 		})
 	})
 

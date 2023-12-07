@@ -77,3 +77,22 @@ func DeleteUserById(id uuid.UUID) (error) {
 	}
 	return err
 }
+
+func PutAUser(user models.Collection) (error) {// un seul User 
+	//ouvrir la base de données 
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return  err
+	}
+	if (user.Name != ""){
+		_,err = db.Exec("UPDATE Users SET name=? WHERE id= ?", user.Name, user.Id)
+	}
+	if (user.Username!= ""){
+		_,err = db.Exec("UPDATE Users SET  username=? WHERE id= ? ", user.Username, user.Id)
+	}
+	 //regarder si ca génère des erreurs 
+	//La valeur 'sql.Result' fournit des informations supplémentaires sur l'opération de mise à jour ou d'insertion, telles que le nombre de lignes affectées ou le dernier ID inséré.
+	helpers.CloseDB(db)
+
+	return  err
+}
