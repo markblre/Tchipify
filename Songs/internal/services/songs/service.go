@@ -2,7 +2,6 @@ package songs
 
 import (
 	"database/sql"
-	"errors"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
@@ -30,7 +29,7 @@ func GetAllSongs() ([]models.Song, error) {
 func GetSongById(id uuid.UUID) (*models.Song, error) {
 	song, err := repository.GetSongById(id)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
 				Message: "song not found",
 				Code:    http.StatusNotFound,
@@ -85,7 +84,7 @@ func PutSong(id uuid.UUID, artist string, file_name string, title string) (*mode
 
 	song, err := repository.PutSong(id, artist, file_name, title)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
 				Message: "song not found",
 				Code:    http.StatusNotFound,
@@ -104,7 +103,7 @@ func PutSong(id uuid.UUID, artist string, file_name string, title string) (*mode
 func DeleteSong(id uuid.UUID) error {
 	err := repository.DeleteSong(id)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if err.Error() == sql.ErrNoRows.Error() {
 			return &models.CustomError{
 				Message: "song not found",
 				Code:    http.StatusNotFound,
