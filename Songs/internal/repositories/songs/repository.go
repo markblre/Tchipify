@@ -84,3 +84,38 @@ func PostSong(id uuid.UUID, artist string, file_name string, published_date time
 
 	return &song, err
 }
+
+func PutSong(id uuid.UUID, artist string, file_name string, title string) (*models.Song, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = tx.Exec("UPDATE songs SET artist=?, file_name=?, title=? WHERE id=?;", artist, file_name, title, id.String())
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
+	var song models.Song
+	err = row.Scan(&song.Id, &song.Artist, &song.File_name, &song.Published_date, &song.Title)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
+
+	helpers.CloseDB(db)
+
+	return &song, err
+}

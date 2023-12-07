@@ -74,3 +74,29 @@ func PostSong(artist string, file_name string, title string) (*models.Song, erro
 
 	return song, err
 }
+
+func PutSong(id uuid.UUID, artist string, file_name string, title string) (*models.Song, error) {
+	if artist == "" || file_name == "" || title == "" {
+		return nil, &models.CustomError{
+			Message: "Missing fields",
+			Code:    http.StatusBadRequest,
+		}
+	}
+
+	song, err := repository.PutSong(id, artist, file_name, title)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return nil, &models.CustomError{
+				Message: "song not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+		logrus.Errorf("Error modifying and retrieving song : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return song, err
+}

@@ -18,6 +18,7 @@ func main() {
 		r.Route("/{id}", func(r chi.Router) {
 			r.Use(songs.Ctx)
 			r.Get("/", songs.GetSong)
+			r.Put("/", songs.PutSong)
 		})
 	})
 
