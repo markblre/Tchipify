@@ -45,7 +45,14 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return song, err
 }
 
-func PostSong(artist string, file_name string, title string) (*models.Song, error) {
+func PostSong(songRequest models.SongRequest) (*models.Song, error) {
+	if songRequest.Artist == "" || songRequest.File_name == "" || songRequest.Title == "" {
+		return nil, &models.CustomError{
+			Message: "missing fields",
+			Code:    http.StatusUnprocessableEntity,
+		}
+	}
+
 	id, err := uuid.NewV4()
 	if err != nil {
 		logrus.Errorf("error creating uuid : %s", err.Error())
@@ -55,14 +62,15 @@ func PostSong(artist string, file_name string, title string) (*models.Song, erro
 		}
 	}
 
-	if artist == "" || file_name == "" || title == "" {
-		return nil, &models.CustomError{
-			Message: "missing fields",
-			Code:    http.StatusUnprocessableEntity,
-		}
+	newSong := models.Song{
+		Id:             &id,
+		Artist:         songRequest.Artist,
+		File_name:      songRequest.File_name,
+		Published_date: time.Now(),
+		Title:          songRequest.Title,
 	}
 
-	song, err := repository.PostSong(id, artist, file_name, time.Now(), title)
+	song, err := repository.PostSong(newSong)
 	if err != nil {
 		logrus.Errorf("Error adding and retrieving song : %s", err.Error())
 		return nil, &models.CustomError{

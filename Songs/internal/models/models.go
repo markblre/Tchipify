@@ -12,3 +12,9 @@ type Song struct {
 	Published_date time.Time  `json:"published_date"`
 	Title          string     `json:"title"`
 }
+
+type SongRequest struct {
+	Artist    string `json:"artist"`
+	File_name string `json:"file_name"`
+	Title     string `json:"title"`
+}

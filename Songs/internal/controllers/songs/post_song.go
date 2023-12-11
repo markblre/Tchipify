@@ -17,8 +17,8 @@ import (
 // @Failure      500             "Something went wrong"
 // @Router       /songs [post]
 func PostSong(w http.ResponseWriter, r *http.Request) {
-	var newSong models.Song
-	err := json.NewDecoder(r.Body).Decode(&newSong)
+	var songRequest models.SongRequest
+	err := json.NewDecoder(r.Body).Decode(&songRequest)
 	if err != nil {
 		logrus.Errorf("Data decoding error : %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
@@ -26,7 +26,7 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	song, err := songs.PostSong(newSong.Artist, newSong.File_name, newSong.Title)
+	song, err := songs.PostSong(songRequest)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

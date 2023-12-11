@@ -4,7 +4,6 @@ import (
 	"github.com/gofrs/uuid"
 	"middleware/example/internal/helpers"
 	"middleware/example/internal/models"
-	"time"
 )
 
 func GetAllSongs() ([]models.Song, error) {
@@ -50,7 +49,7 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return &song, err
 }
 
-func PostSong(id uuid.UUID, artist string, file_name string, published_date time.Time, title string) (*models.Song, error) {
+func PostSong(newSong models.Song) (*models.Song, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -61,13 +60,13 @@ func PostSong(id uuid.UUID, artist string, file_name string, published_date time
 		return nil, err
 	}
 
-	_, err = tx.Exec("INSERT INTO songs (id, artist, file_name, published_date, title) VALUES (?, ?, ?, ?, ?);", id.String(), artist, file_name, published_date, title)
+	_, err = tx.Exec("INSERT INTO songs (id, artist, file_name, published_date, title) VALUES (?, ?, ?, ?, ?);", newSong.Id.String(), newSong.Artist, newSong.File_name, newSong.Published_date, newSong.Title)
 	if err != nil {
 		tx.Rollback()
 		return nil, err
 	}
 
-	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
+	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", newSong.Id.String())
 	var song models.Song
 	err = row.Scan(&song.Id, &song.Artist, &song.File_name, &song.Published_date, &song.Title)
 	if err != nil {
