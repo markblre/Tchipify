@@ -40,6 +40,11 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+
+	songURL := "/songs/" + song.Id.String()
+	w.Header().Set("Location", songURL)
+
 	w.WriteHeader(http.StatusCreated)
 	body, _ := json.Marshal(song)
 	_, _ = w.Write(body)

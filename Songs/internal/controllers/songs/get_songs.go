@@ -34,6 +34,8 @@ func GetSongs(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(songs)
 	_, _ = w.Write(body)
