@@ -1,4 +1,4 @@
-package collections
+package ratings
 
 import (
 	"github.com/gofrs/uuid"
@@ -6,45 +6,45 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllRatings() ([]models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	rows, err := db.Query("SELECT * FROM collections")
+	rows, err := db.Query("SELECT * FROM ratings")
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
 	}
 
 	// parsing datas in object slice
-	collections := []models.Collection{}
+	ratings := []models.Rating{}
 	for rows.Next() {
-		var data models.Collection
+		var data models.Rating
 		err = rows.Scan(&data.Id, &data.Content)
 		if err != nil {
 			return nil, err
 		}
-		collections = append(collections, data)
+		ratings = append(ratings, data)
 	}
 	// don't forget to close rows
 	_ = rows.Close()
 
-	return collections, err
+	return ratings, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT * FROM collections WHERE id=?", id.String())
+	row := db.QueryRow("SELECT * FROM ratings WHERE id=?", id.String())
 	helpers.CloseDB(db)
 
-	var collection models.Collection
-	err = row.Scan(&collection.Id, &collection.Content)
+	var rating models.Rating
+	err = row.Scan(&rating.Id, &rating.Content)
 	if err != nil {
 		return nil, err
 	}
-	return &collection, err
+	return &rating, err
 }

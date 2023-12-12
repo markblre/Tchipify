@@ -1,23 +1,23 @@
-package collections
+package ratings
 
 import (
 	"encoding/json"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/services/collections"
+	"middleware/example/internal/services/ratings"
 	"net/http"
 )
 
-// GetCollections
-// @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// GetRatings
+// @Tags         ratings
+// @Summary      Get ratings.
+// @Description  Get ratings.
+// @Success      200            {array}  models.Rating
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
-func GetCollections(w http.ResponseWriter, _ *http.Request) {
+// @Router       /ratings [get]
+func GetRatings(w http.ResponseWriter, _ *http.Request) {
 	// calling service
-	collections, err := collections.GetAllCollections()
+	ratings, err := ratings.GetAllRatings()
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -35,7 +35,7 @@ func GetCollections(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collections)
+	body, _ := json.Marshal(ratings)
 	_, _ = w.Write(body)
 	return
 }

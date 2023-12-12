@@ -1,4 +1,4 @@
-package collections
+package ratings
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 
 func Ctx(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		collectionId, err := uuid.FromString(chi.URLParam(r, "id"))
+		ratingId, err := uuid.FromString(chi.URLParam(r, "id"))
 		if err != nil {
 			logrus.Errorf("parsing error : %s", err.Error())
 			customError := &models.CustomError{
@@ -26,7 +26,7 @@ func Ctx(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "collectionId", collectionId)
+		ctx := context.WithValue(r.Context(), "ratingId", ratingId)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

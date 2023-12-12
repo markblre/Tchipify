@@ -1,6 +1,6 @@
 basePath: /
 definitions:
-  models.Collection:
+  models.Rating:
     properties:
       content:
         type: string
@@ -11,30 +11,30 @@ info:
   contact:
     email: justine.bachelard@ext.uca.fr
     name: Justine Bachelard.
-  description: API to manage collections.
+  description: API to manage ratings.
   title: middleware/example
   version: 1.0.0
 paths:
-  /collections:
+  /ratings:
     get:
-      description: Get collections.
+      description: Get ratings.
       responses:
         "200":
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Collection'
+              $ref: '#/definitions/models.Rating'
             type: array
         "500":
           description: Something went wrong
-      summary: Get collections.
+      summary: Get ratings.
       tags:
-      - collections
-  /collections/{id}:
+      - ratings
+  /ratings/{id}:
     get:
-      description: Get a collection.
+      description: Get a rating.
       parameters:
-      - description: Collection UUID formatted ID
+      - description: Rating UUID formatted ID
         in: path
         name: id
         required: true
@@ -43,14 +43,14 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Collection'
+            $ref: '#/definitions/models.Rating'
         "422":
           description: Cannot parse id
         "500":
           description: Something went wrong
-      summary: Get a collection.
+      summary: Get a rating.
       tags:
-      - collections
+      - ratings
 schemes:
 - http
 swagger: "2.0"

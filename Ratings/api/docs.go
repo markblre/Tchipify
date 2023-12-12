@@ -18,20 +18,20 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/collections": {
+        "/ratings": {
             "get": {
-                "description": "Get collections.",
+                "description": "Get ratings.",
                 "tags": [
-                    "collections"
+                    "ratings"
                 ],
-                "summary": "Get collections.",
+                "summary": "Get ratings.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Collection"
+                                "$ref": "#/definitions/models.Rating"
                             }
                         }
                     },
@@ -41,17 +41,17 @@ const docTemplate = `{
                 }
             }
         },
-        "/collections/{id}": {
+        "/ratings/{id}": {
             "get": {
-                "description": "Get a collection.",
+                "description": "Get a rating.",
                 "tags": [
-                    "collections"
+                    "ratings"
                 ],
-                "summary": "Get a collection.",
+                "summary": "Get a rating.",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Collection UUID formatted ID",
+                        "description": "Rating UUID formatted ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -61,7 +61,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Collection"
+                            "$ref": "#/definitions/models.Rating"
                         }
                     },
                     "422": {
@@ -75,7 +75,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Collection": {
+        "models.Rating": {
             "type": "object",
             "properties": {
                 "content": {
@@ -96,7 +96,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{"http"},
 	Title:            "middleware/example",
-	Description:      "API to manage collections.",
+	Description:      "API to manage ratings.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

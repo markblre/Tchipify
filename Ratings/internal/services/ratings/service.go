@@ -1,45 +1,45 @@
-package collections
+package ratings
 
 import (
 	"database/sql"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	repository "middleware/example/internal/repositories/collections"
+	repository "middleware/example/internal/repositories/ratings"
 	"net/http"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllRatings() ([]models.Rating, error) {
 	var err error
 	// calling repository
-	collections, err := repository.GetAllCollections()
+	ratings, err := repository.GetAllRatings()
 	// managing errors
 	if err != nil {
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving ratings : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return collections, nil
+	return ratings, nil
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
-	collection, err := repository.GetCollectionById(id)
+func GetRatingById(id uuid.UUID) (*models.Rating, error) {
+	rating, err := repository.GetRatingById(id)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
-				Message: "collection not found",
+				Message: "rating not found",
 				Code:    http.StatusNotFound,
 			}
 		}
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving ratings : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return collection, err
+	return rating, err
 }
