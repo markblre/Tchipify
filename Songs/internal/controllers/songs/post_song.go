@@ -9,12 +9,15 @@ import (
 )
 
 // PostSong
-// @Tags         post new song
+// @Tags         songs
 // @Summary      Post a song.
 // @Description  Post a song.
-// @Success      200            {array}  models.Song
-// @Failure      422             "missing fields"
-// @Failure      500             "Something went wrong"
+// @Param        artist         header      string  true  "Artist of the song"
+// @Param        file_name      header      string  true  "Song file name"
+// @Param        title          header      string  true  "Title of the song"
+// @Success      200            {object}  models.Song
+// @Failure      422            "missing fields"
+// @Failure      500            "Something went wrong"
 // @Router       /songs [post]
 func PostSong(w http.ResponseWriter, r *http.Request) {
 	var songRequest models.SongRequest

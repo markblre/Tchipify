@@ -13,7 +13,7 @@ import (
 // @Summary      Get songs.
 // @Description  Get songs.
 // @Success      200            {array}  models.Song
-// @Failure      500             "Something went wrong"
+// @Failure      500            "Something went wrong"
 // @Router       /songs [get]
 func GetSongs(w http.ResponseWriter, _ *http.Request) {
 	// calling service

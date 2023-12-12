@@ -1,18 +1,26 @@
 basePath: /
+consumes:
+- application/json
 definitions:
   models.Song:
     properties:
-      content:
+      artist:
+        type: string
+      file_name:
         type: string
       id:
+        type: string
+      published_date:
+        type: string
+      title:
         type: string
     type: object
 info:
   contact:
-    email: justine.bachelard@ext.uca.fr
-    name: Justine Bachelard.
+    email: mark.ballereau@etu.uca.fr
+    name: Mark Ballereau.
   description: API to manage songs.
-  title: middleware/example
+  title: Songs API
   version: 1.0.0
 paths:
   /songs:
@@ -30,7 +38,57 @@ paths:
       summary: Get songs.
       tags:
       - songs
+    post:
+      description: Post a song.
+      parameters:
+      - description: Artist of the song
+        in: header
+        name: artist
+        required: true
+        type: string
+      - description: Song file name
+        in: header
+        name: file_name
+        required: true
+        type: string
+      - description: Title of the song
+        in: header
+        name: title
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Song'
+        "422":
+          description: missing fields
+        "500":
+          description: Something went wrong
+      summary: Post a song.
+      tags:
+      - songs
   /songs/{id}:
+    delete:
+      description: Delete a song.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "404":
+          description: Song not found
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Delete a song.
+      tags:
+      - songs
     get:
       description: Get a song.
       parameters:
@@ -51,6 +109,40 @@ paths:
       summary: Get a song.
       tags:
       - songs
+    put:
+      description: Modify a song.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Artist of the song
+        in: header
+        name: artist
+        type: string
+      - description: Song file name
+        in: header
+        name: file_name
+        type: string
+      - description: Title of the song
+        in: header
+        name: title
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Song'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Modify a song.
+      tags:
+      - songs
+produces:
+- application/json
 schemes:
 - http
 swagger: "2.0"

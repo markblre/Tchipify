@@ -10,14 +10,15 @@ import (
 )
 
 // DeleteSong
-// @Tags         delete song
+// @Tags         songs
 // @Summary      Delete a song.
 // @Description  Delete a song.
+// @Param        id           	path      string  true  "Song UUID formatted ID"
 // @Success      204            "No Content"
 // @Failure      404            "Song not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /song/{id} [delete]
+// @Router       /songs/{id} [delete]
 func DeleteSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	songId, _ := ctx.Value("songId").(uuid.UUID)

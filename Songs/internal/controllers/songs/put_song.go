@@ -10,13 +10,17 @@ import (
 )
 
 // PutSong
-// @Tags         put new song
+// @Tags         songs
 // @Summary      Modify a song.
 // @Description  Modify a song.
-// @Success      200            {array}  models.Song
-// @Failure      422             "Cannot parse id"
-// @Failure      500             "Something went wrong"
-// @Router       /song/{id} [put]
+// @Param        id           	path      	string  true   "Song UUID formatted ID"
+// @Param        artist         header      string  false  "Artist of the song"
+// @Param        file_name      header      string  false  "Song file name"
+// @Param        title          header      string  false  "Title of the song"
+// @Success      200            {object}  models.Song
+// @Failure      422            "Cannot parse id"
+// @Failure      500            "Something went wrong"
+// @Router       /songs/{id} [put]
 func PutSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	songId, _ := ctx.Value("songId").(uuid.UUID)

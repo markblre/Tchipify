@@ -5,13 +5,19 @@ import "github.com/swaggo/swag"
 
 const docTemplate = `{
     "schemes": {{ marshal .Schemes }},
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Justine Bachelard.",
-            "email": "justine.bachelard@ext.uca.fr"
+            "name": "Mark Ballereau.",
+            "email": "mark.ballereau@etu.uca.fr"
         },
         "version": "{{.Version}}"
     },
@@ -34,6 +40,50 @@ const docTemplate = `{
                                 "$ref": "#/definitions/models.Song"
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "description": "Post a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Post a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Artist of the song",
+                        "name": "artist",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Song file name",
+                        "name": "file_name",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title of the song",
+                        "name": "title",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    },
+                    "422": {
+                        "description": "missing fields"
                     },
                     "500": {
                         "description": "Something went wrong"
@@ -71,6 +121,84 @@ const docTemplate = `{
                         "description": "Something went wrong"
                     }
                 }
+            },
+            "put": {
+                "description": "Modify a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Modify a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Artist of the song",
+                        "name": "artist",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Song file name",
+                        "name": "file_name",
+                        "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Title of the song",
+                        "name": "title",
+                        "in": "header"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Song"
+                        }
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a song.",
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Delete a song.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Song not found"
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
             }
         }
     },
@@ -78,10 +206,19 @@ const docTemplate = `{
         "models.Song": {
             "type": "object",
             "properties": {
-                "content": {
+                "artist": {
+                    "type": "string"
+                },
+                "file_name": {
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "published_date": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -95,7 +232,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{"http"},
-	Title:            "middleware/example",
+	Title:            "Songs API",
 	Description:      "API to manage songs.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
