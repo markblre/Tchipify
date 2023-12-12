@@ -21,8 +21,8 @@ func PutSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	songId, _ := ctx.Value("songId").(uuid.UUID)
 
-	var newSong models.Song
-	err := json.NewDecoder(r.Body).Decode(&newSong)
+	var newSongData models.SongRequest
+	err := json.NewDecoder(r.Body).Decode(&newSongData)
 	if err != nil {
 		logrus.Errorf("Data decoding error : %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
@@ -30,7 +30,7 @@ func PutSong(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	song, err := songs.PutSong(songId, newSong.Artist, newSong.File_name, newSong.Title)
+	song, err := songs.PutSong(songId, newSongData)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

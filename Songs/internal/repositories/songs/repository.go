@@ -84,7 +84,7 @@ func PostSong(newSong models.Song) (*models.Song, error) {
 	return &song, err
 }
 
-func PutSong(id uuid.UUID, artist string, file_name string, title string) (*models.Song, error) {
+func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -95,31 +95,31 @@ func PutSong(id uuid.UUID, artist string, file_name string, title string) (*mode
 		return nil, err
 	}
 
-	if artist != "" {
-		_, err = tx.Exec("UPDATE songs SET artist=? WHERE id=?;", artist, id.String())
+	if newSongData.Artist != "" {
+		_, err = tx.Exec("UPDATE songs SET artist=? WHERE id=?;", newSongData.Artist, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
 	}
 
-	if file_name != "" {
-		_, err = tx.Exec("UPDATE songs SET file_name=? WHERE id=?;", file_name, id.String())
+	if newSongData.File_name != "" {
+		_, err = tx.Exec("UPDATE songs SET file_name=? WHERE id=?;", newSongData.File_name, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
 	}
 
-	if title != "" {
-		_, err = tx.Exec("UPDATE songs SET title=? WHERE id=?;", title, id.String())
+	if newSongData.Title != "" {
+		_, err = tx.Exec("UPDATE songs SET title=? WHERE id=?;", newSongData.Title, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
 	}
 
-	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", id.String())
+	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", songId.String())
 	var song models.Song
 	err = row.Scan(&song.Id, &song.Artist, &song.File_name, &song.Published_date, &song.Title)
 	if err != nil {

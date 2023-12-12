@@ -82,8 +82,8 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 	return song, err
 }
 
-func PutSong(id uuid.UUID, artist string, file_name string, title string) (*models.Song, error) {
-	song, err := repository.PutSong(id, artist, file_name, title)
+func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
+	song, err := repository.PutSong(songId, newSongData)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
