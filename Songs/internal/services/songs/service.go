@@ -70,7 +70,7 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 		Title:          songRequest.Title,
 	}
 
-	song, err := repository.PostSong(newSong)
+	err = repository.PostSong(newSong)
 	if err != nil {
 		logrus.Errorf("Error adding and retrieving song : %s", err.Error())
 		return nil, &models.CustomError{
@@ -79,7 +79,7 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 		}
 	}
 
-	return song, err
+	return &newSong, err
 }
 
 func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {

@@ -49,39 +49,20 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return &song, err
 }
 
-func PostSong(newSong models.Song) (*models.Song, error) {
+func PostSong(newSong models.Song) error {
 	db, err := helpers.OpenDB()
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	tx, err := db.Begin()
+	_, err = db.Exec("INSERT INTO songs (id, artist, file_name, published_date, title) VALUES (?, ?, ?, ?, ?);", newSong.Id.String(), newSong.Artist, newSong.File_name, newSong.Published_date, newSong.Title)
 	if err != nil {
-		return nil, err
-	}
-
-	_, err = tx.Exec("INSERT INTO songs (id, artist, file_name, published_date, title) VALUES (?, ?, ?, ?, ?);", newSong.Id.String(), newSong.Artist, newSong.File_name, newSong.Published_date, newSong.Title)
-	if err != nil {
-		tx.Rollback()
-		return nil, err
-	}
-
-	row := tx.QueryRow("SELECT * FROM songs WHERE id=?", newSong.Id.String())
-	var song models.Song
-	err = row.Scan(&song.Id, &song.Artist, &song.File_name, &song.Published_date, &song.Title)
-	if err != nil {
-		tx.Rollback()
-		return nil, err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		return nil, err
+		return err
 	}
 
 	helpers.CloseDB(db)
 
-	return &song, err
+	return nil
 }
 
 func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
