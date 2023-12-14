@@ -13,11 +13,11 @@ import (
 	"fmt"
 )
 
-// GetCollections
+// PutUser
 // @Tags         collections
 // @Summary      Put a User.
 // @Description  Put a User.
-// @Success      200             {object}  models.Collection
+// @Success      200             {object}  models.User
 // @Failure      404             "User not found"
 // @Failure      500             "Something went wrong"
 // @Router       /collections/{id} [put]
@@ -37,7 +37,7 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 	 if err != nil {
         panic(err)
     }
-	var t models.Collection
+	var t models.User
 	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
 	if err != nil {
         fmt.Println("cc3")

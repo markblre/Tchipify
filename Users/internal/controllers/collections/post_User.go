@@ -11,11 +11,11 @@ import (
 	"io/ioutil"
 )
 
-// GetCollections
+// PostUser
 // @Tags         collections
 // @Summary      Post a User.
 // @Description  Post a User.
-// @Success      200             {object}  models.Collection
+// @Success      200             {object}  models.User
 // @Failure      500             "Something went wrong"
 // @Failure      422             "missing fields"
 // @Router       /collections [post]
@@ -27,7 +27,7 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 	 if err != nil {
         panic(err)
     }
-	var t models.Collection
+	var t models.User
 	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
 	collections, err := collections.PostAUser(t) // qui se retrouve dans repository/service
 	if err != nil {

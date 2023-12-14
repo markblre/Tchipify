@@ -5,7 +5,7 @@ import (
 	"time"
 )
 //normalement fini
-type Collection struct {
+type 	User struct {
 	Id      *uuid.UUID `json:"id"`
 	Name string     `json:"name"`
 	Username string     `json:"username"`

@@ -7,7 +7,7 @@ import (
 	
 )
 //"database/sql" 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllCollections() ([]models.User, error) {
 	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -20,9 +20,9 @@ func GetAllCollections() ([]models.Collection, error) {
 	}
 
 	// parsing datas in object slice
-	collections := []models.Collection{}
+	collections := []models.User{}
 	for rows.Next() {
-		var data models.Collection
+		var data models.User
 		err = rows.Scan(&data.Id, &data.Name, &data.Username, &data.DateInscription)
 		if err != nil {
 			return nil, err
@@ -35,14 +35,14 @@ func GetAllCollections() ([]models.Collection, error) {
 	return collections, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
 	row := db.QueryRow("SELECT * FROM Users WHERE id=?", id.String())
 	helpers.CloseDB(db)
-	var collection models.Collection
+	var collection models.User
 	err = row.Scan(&collection.Id, &collection.Name, &collection.Username, &collection.DateInscription)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	return &collection, err
 }
 
-func PostAUser(user models.Collection) (error) {// un seul User 
+func PostAUser(user models.User) (error) {// un seul User 
 	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {
@@ -78,7 +78,7 @@ func DeleteUserById(id uuid.UUID) (error) {
 	return err
 }
 
-func PutAUser(user models.Collection) (error) {// un seul User 
+func PutAUser(user models.User) (error) {// un seul User 
 	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {

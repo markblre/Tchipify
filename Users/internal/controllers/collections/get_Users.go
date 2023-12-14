@@ -8,11 +8,11 @@ import (
 	"net/http"
 )
 
-// GetCollections
+// GetUsers
 // @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Summary      Get Users.
+// @Description  Get Users.
+// @Success      200            {array}  models.User
 // @Failure      500             "Something went wrong"
 // @Router       /collections [get]
 func GetCollections(w http.ResponseWriter, _ *http.Request) {

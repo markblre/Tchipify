@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-func GetAllCollections() ([]models.Collection, error) {
+func GetAllCollections() ([]models.User, error) {
 	var err error
 	// calling repository
 	collections, err := repository.GetAllCollections()
@@ -28,7 +28,7 @@ func GetAllCollections() ([]models.Collection, error) {
 	return collections, nil
 }
 
-func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
+func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	collection, err := repository.GetCollectionById(id)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
@@ -47,7 +47,7 @@ func GetCollectionById(id uuid.UUID) (*models.Collection, error) {
 	return collection, err
 }
 
-func PostAUser(user models.Collection) (*models.Collection, error) { // structure -> models.Collection
+func PostAUser(user models.User) (*models.User, error) { // structure -> models.User
 	var err error
 	// calling repository
 	// il creer un id 
@@ -78,7 +78,7 @@ func DeleteUserById(id uuid.UUID) ( error) {
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
 			return  &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
-				Message: "collection not found",
+				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}
 		}
@@ -92,7 +92,7 @@ func DeleteUserById(id uuid.UUID) ( error) {
 	return err
 }
 
-func PutAUser(user models.Collection) (*models.Collection, error) { // structure -> models.Collection
+func PutAUser(user models.User) (*models.User, error) { // structure -> models.User
 	var err error
 	// calling repository
 	// il creer un id 

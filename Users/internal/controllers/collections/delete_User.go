@@ -9,12 +9,12 @@ import (
 	"middleware/example/internal/models"
 )
 
-// GetCollections
+// 	DeleteUser
 // @Tags         collections
 // @Summary      Delete a User.
 // @Description  Delete a User.
 // @Success      200           
-// @Failure      404             "collection not found"
+// @Failure      404             "User not found"
 // @Failure      500             "Something went wrong"
 // @Router        /collections/{id} [delete]
 

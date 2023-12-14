@@ -9,12 +9,12 @@ import (
 	"net/http"
 )
 
-// GetCollection
+// GetUser
 // @Tags         collections
-// @Summary      Get a collection.
-// @Description  Get a collection.
+// @Summary      Get a User.
+// @Description  Get a User.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
-// @Success      200            {object}  models.Collection
+// @Success      200            {object}  models.User
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /collections/{id} [get]
