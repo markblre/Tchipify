@@ -13,11 +13,12 @@ import (
 
 // GetCollections
 // @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Summary      Post a User.
+// @Description  Post a User.
+// @Success      200             {object}  models.Collection
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
+// @Failure      422             "missing fields"
+// @Router       /collections [post]
 
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
