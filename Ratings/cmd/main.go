@@ -32,7 +32,11 @@ func init() {
 	schemes := []string{
 		`CREATE TABLE IF NOT EXISTS ratings (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
-			content VARCHAR(255) NOT NULL
+			comment VARCHAR(255) NOT NULL,
+    		rating INT NOT NULL,
+    		rating_date DATE NOT NULL,
+    		song_id VARCHAR(255) NOT NULL,
+    		user_id VARCHAR(255) NOT NULL,
 		);`,
 	}
 	for _, scheme := range schemes {

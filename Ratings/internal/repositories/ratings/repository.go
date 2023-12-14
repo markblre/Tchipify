@@ -21,7 +21,7 @@ func GetAllRatings() ([]models.Rating, error) {
 	ratings := []models.Rating{}
 	for rows.Next() {
 		var data models.Rating
-		err = rows.Scan(&data.Id, &data.Content)
+		err = rows.Scan(&data.Id, &data.Comment, &data.Rating, &data.Rating_date, &data.Song_id, &data.User_id)
 		if err != nil {
 			return nil, err
 		}
@@ -42,7 +42,7 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	helpers.CloseDB(db)
 
 	var rating models.Rating
-	err = row.Scan(&rating.Id, &rating.Content)
+	err = row.Scan(&rating.Id, &rating.Comment, &rating.Rating, &rating.Rating_date, &rating.Song_id, &rating.User_id)
 	if err != nil {
 		return nil, err
 	}
