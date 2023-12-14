@@ -1,4 +1,4 @@
-package collections
+package users
 // le service appel le repository
 // le service manage tout et devra générer les ids 
 import (
@@ -6,12 +6,13 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	repository "middleware/example/internal/repositories/collections"
+	repository "middleware/example/internal/repositories/users"
 	"net/http"
 	"time"
+	"strings"
 )
 
-func GetAllCollections() ([]models.User, error) {
+func GetAllUsers() ([]models.User, error) {
 	var err error
 	// calling repository
 	collections, err := repository.GetAllCollections()
@@ -27,7 +28,7 @@ func GetAllCollections() ([]models.User, error) {
 	return collections, nil
 }
 
-func GetCollectionById(id uuid.UUID) (*models.User, error) {
+func GetUserById(id uuid.UUID) (*models.User, error) {
 	collection, err := repository.GetCollectionById(id)
 	if err != nil {
 		if  err.Error() == sql.ErrNoRows.Error() {
@@ -61,7 +62,14 @@ func PostAUser(user models.User) (*models.User, error) { // structure -> models.
 	user.DateInscription=time.Now()
 	err =repository.PostAUser(user)
 	// managing errors
+	//word:="UNIQUE"
 	if err != nil {
+		if strings.Contains( err.Error(),"UNIQUE") { 
+			return  nil,&models.CustomError{ 
+				Message: "User already exists",
+				Code:    409,
+			}
+		}
 		logrus.Errorf("error retrieving collections : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",

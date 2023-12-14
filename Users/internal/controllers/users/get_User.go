@@ -1,29 +1,31 @@
-package collections
+package users
 
 import (
 	"encoding/json"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/services/collections"
+	"middleware/example/internal/services/users"
 	"net/http"
 )
 
 // GetUser
-// @Tags         collections
+// @Accept       json
+// @Produce      json
+// @Tags         Users
 // @Summary      Get a User.
 // @Description  Get a User.
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
 // @Success      200            {object}  models.User
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /collections/{id} [get]
-func GetCollection(w http.ResponseWriter, r *http.Request) { // http.Request -> la requete http
+// @Router       /users/{id} [get]
+func GetUser(w http.ResponseWriter, r *http.Request) { // http.Request -> la requete http
 																// ResponseWriter -> contient la reponse 
 	ctx := r.Context() // context de la requête (on met l'id dans l'url)
 	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) // uuid -> type de données, CollectionId est un nom que l'on crée
 
-	collection, err := collections.GetCollectionById(collectionId)
+	collection, err := users.GetUserById(collectionId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())// la doc de logrus est expliquée dans le tp
 		customError, isCustom := err.(*models.CustomError)

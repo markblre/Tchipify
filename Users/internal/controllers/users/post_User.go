@@ -1,51 +1,37 @@
 // post : on envoie dans le body de la requete du json 
 //le post il crée un utilisateur
-package collections
+package users
 
 import (
 	"encoding/json"
-	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/services/collections"
+	"middleware/example/internal/services/users"
 	"net/http"
 	"io/ioutil"
-	"fmt"
 )
 
-// PutUser
-// @Tags         collections
-// @Summary      Put a User.
-// @Description  Put a User.
+// PostUser
+// @Accept       json
+// @Produce      json
+// @Tags         Users
+// @Summary      Post a User.
+// @Description  Post a User.
+// @Param        body          		body   models.User    true  "User"
 // @Success      200             {object}  models.User
-// @Failure      404             "User not found"
 // @Failure      500             "Something went wrong"
-// @Router       /collections/{id} [put]
-
-func PutUser(w http.ResponseWriter, r *http.Request) {
-
-	
-	ctx := r.Context() // context de la requête (on met l'id dans l'url)
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) // uuid -> type de données, CollectionId est un nom que l'on crée
-
+// @Failure      422             "missing fields"
+// @Router       /users [post]
+func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
 	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
-	if err != nil {
-        fmt.Println("cc2")
-    }
 	 // renvoie une chaine de caractère avec du json -> com pas au bon endroit
 	 if err != nil {
         panic(err)
     }
 	var t models.User
 	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
-	if err != nil {
-        fmt.Println("cc3")
-    }
-
-	t.Id = &collectionId
-
-	collections, err := collections.PutAUser(t) // qui se retrouve dans repository/service
+	collections, err := users.PostAUser(t) // qui se retrouve dans repository/service
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -61,7 +47,6 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	fmt.Println("cc4")
 	w.WriteHeader(http.StatusOK)
 	body, _ = json.Marshal(collections)// je le veux en json 
 	_, _ = w.Write(body) // Bytes()

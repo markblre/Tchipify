@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"middleware/example/internal/controllers/collections"
+	"middleware/example/internal/controllers/users"
 	"middleware/example/internal/helpers"
 	_ "middleware/example/internal/models"
 	"net/http"
@@ -13,14 +13,14 @@ import (
 func main() {
 	r := chi.NewRouter() // crée le routeur 
 //ce qui l'Api autorise de faire 
-	r.Route("/collections", func(r chi.Router) {
-		r.Get("/", collections.GetCollections)
-		r.Post("/", collections.PostUser)
+	r.Route("/users", func(r chi.Router) {
+		r.Get("/", users.GetUsers)
+		r.Post("/", users.PostUser)
 		r.Route("/{id}", func(r chi.Router) {
-			r.Use(collections.Ctx) // le routeur appel la fonction 
-			r.Get("/", collections.GetCollection)
-			r.Delete("/", collections.DeleteUser)
-			r.Put("/", collections.PutUser)
+			r.Use(users.Ctx) // le routeur appel la fonction 
+			r.Get("/", users.GetUser)
+			r.Delete("/", users.DeleteUser)
+			r.Put("/", users.PutUser)
 		})
 	})
 
@@ -34,7 +34,7 @@ func init() { // initialise la base de données
 		logrus.Fatalf("error while opening database : %s", err.Error())
 	}
 	schemes := []string{
-		`CREATE TABLE IF NOT EXISTS Users (
+		`CREATE TABLE IF NOT EXISTS users (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
 			name VARCHAR(255) NOT NULL,
 			username VARCHAR(255) NOT NULL UNIQUE,

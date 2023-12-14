@@ -1,23 +1,24 @@
-package collections
-
+package users
 import (
 	"encoding/json"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
-	"middleware/example/internal/services/collections"
+	"middleware/example/internal/services/users"
 	"net/http"
 )
 
 // GetUsers
-// @Tags         collections
+// @Accept       json
+// @Produce      json
+// @Tags         Users
 // @Summary      Get Users.
 // @Description  Get Users.
 // @Success      200            {array}  models.User
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
-func GetCollections(w http.ResponseWriter, _ *http.Request) {
+// @Router       /users [get]
+func GetUsers(w http.ResponseWriter, _ *http.Request) {
 	// calling service
-	collections, err := collections.GetAllCollections()
+	collections, err := users.GetAllUsers()
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())

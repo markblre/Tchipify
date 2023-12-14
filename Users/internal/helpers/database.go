@@ -7,7 +7,7 @@ import (
 )
 
 func OpenDB() (*sql.DB, error) { // ferme et ouvre la base de donnée 
-	db, err := sql.Open("sqlite3", "file:collections.db")
+	db, err := sql.Open("sqlite3", "file:users.db")
 	if err != nil {
 		db.SetMaxOpenConns(1)
 	}
