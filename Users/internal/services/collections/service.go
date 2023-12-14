@@ -98,6 +98,14 @@ func PutAUser(user models.Collection) (*models.Collection, error) { // structure
 	// il creer un id 
 	
 	err =repository.PutAUser(user)
+	if err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			return  nil,&models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
+				Message: "User not found",
+				Code:    http.StatusNotFound,
+			}
+		}
+	}
 	// managing errors
 	if err != nil {
 		logrus.Errorf("error retrieving collections : %s", err.Error())
