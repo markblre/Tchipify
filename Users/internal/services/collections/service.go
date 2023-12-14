@@ -96,7 +96,12 @@ func PutAUser(user models.User) (*models.User, error) { // structure -> models.U
 	var err error
 	// calling repository
 	// il creer un id 
-	
+	if user.Name == "" && user.Username == ""{
+        return nil, &models.CustomError{
+            Message: "missing fields",
+            Code:    http.StatusUnprocessableEntity,
+        }
+    }
 	err =repository.PutAUser(user)
 	if err != nil {
 		if errors.As(err, &sql.ErrNoRows) {
