@@ -5,24 +5,36 @@ import "github.com/swaggo/swag"
 
 const docTemplate = `{
     "schemes": {{ marshal .Schemes }},
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Justine Bachelard.",
-            "email": "justine.bachelard@ext.uca.fr"
+            "name": "Lena COMBRONDE.",
+            "email": "Lena.combronde@etu.uca.fr"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/collections": {
+        "/users": {
             "get": {
                 "description": "Get Users.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
-                    "collections"
+                    "Users"
                 ],
                 "summary": "Get Users.",
                 "responses": {
@@ -39,13 +51,57 @@ const docTemplate = `{
                         "description": "Something went wrong"
                     }
                 }
+            },
+            "post": {
+                "description": "Post a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Post a User.",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "422": {
+                        "description": "missing fields"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
             }
         },
-        "/collections/{id}": {
+        "/users/{id}": {
             "get": {
                 "description": "Get a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
-                    "collections"
+                    "Users"
                 ],
                 "summary": "Get a User.",
                 "parameters": [
@@ -66,6 +122,90 @@ const docTemplate = `{
                     },
                     "422": {
                         "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "description": "Put a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Put a User.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "User already exists"
+                    },
+                    "422": {
+                        "description": "missing fields"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a User.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "User not found"
                     },
                     "500": {
                         "description": "Something went wrong"
@@ -102,7 +242,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{"http"},
 	Title:            "middleware/example",
-	Description:      "API to manage collections.",
+	Description:      "API to manage Users.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

@@ -1,24 +1,36 @@
 {
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "schemes": [
         "http"
     ],
     "swagger": "2.0",
     "info": {
-        "description": "API to manage collections.",
+        "description": "API to manage Users.",
         "title": "middleware/example",
         "contact": {
-            "name": "Justine Bachelard.",
-            "email": "justine.bachelard@ext.uca.fr"
+            "name": "Lena COMBRONDE.",
+            "email": "Lena.combronde@etu.uca.fr"
         },
         "version": "1.0.0"
     },
     "basePath": "/",
     "paths": {
-        "/collections": {
+        "/users": {
             "get": {
                 "description": "Get Users.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
-                    "collections"
+                    "Users"
                 ],
                 "summary": "Get Users.",
                 "responses": {
@@ -35,13 +47,57 @@
                         "description": "Something went wrong"
                     }
                 }
+            },
+            "post": {
+                "description": "Post a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Post a User.",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "422": {
+                        "description": "missing fields"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
             }
         },
-        "/collections/{id}": {
+        "/users/{id}": {
             "get": {
                 "description": "Get a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
-                    "collections"
+                    "Users"
                 ],
                 "summary": "Get a User.",
                 "parameters": [
@@ -62,6 +118,90 @@
                     },
                     "422": {
                         "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "description": "Put a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Put a User.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "User",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "409": {
+                        "description": "User already exists"
+                    },
+                    "422": {
+                        "description": "missing fields"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a User.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a User.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Collection UUID formatted ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "User not found"
                     },
                     "500": {
                         "description": "Something went wrong"
