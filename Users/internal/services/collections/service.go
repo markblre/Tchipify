@@ -3,7 +3,6 @@ package collections
 // le service manage tout et devra générer les ids 
 import (
 	"database/sql"
-	"errors"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
@@ -31,7 +30,7 @@ func GetAllCollections() ([]models.User, error) {
 func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	collection, err := repository.GetCollectionById(id)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if  err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
 				Message: "collection not found",
 				Code:    http.StatusNotFound,
@@ -76,7 +75,7 @@ func PostAUser(user models.User) (*models.User, error) { // structure -> models.
 func DeleteUserById(id uuid.UUID) ( error) {
 	err := repository.DeleteUserById(id)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if err.Error() == sql.ErrNoRows.Error() {
 			return  &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
 				Message: "User not found",
 				Code:    http.StatusNotFound,
@@ -104,7 +103,7 @@ func PutAUser(user models.User) (*models.User, error) { // structure -> models.U
     }
 	err =repository.PutAUser(user)
 	if err != nil {
-		if errors.As(err, &sql.ErrNoRows) {
+		if err.Error() == sql.ErrNoRows.Error() {
 			return  nil,&models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
 				Message: "User not found",
 				Code:    http.StatusNotFound,
