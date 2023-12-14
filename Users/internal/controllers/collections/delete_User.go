@@ -11,11 +11,12 @@ import (
 
 // GetCollections
 // @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Summary      Delete a User.
+// @Description  Delete a User.
+// @Success      200           
+// @Failure      404             "collection not found"
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
+// @Router        /collections/{id} [delete]
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context() // context de la requête (on met l'id dans l'url)
