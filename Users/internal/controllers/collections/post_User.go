@@ -9,7 +9,6 @@ import (
 	"middleware/example/internal/services/collections"
 	"net/http"
 	"io/ioutil"
-	"fmt"
 )
 
 // GetCollections
@@ -23,18 +22,12 @@ import (
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
 	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
-	if err != nil {
-        fmt.Println("cc2")
-    }
 	 // renvoie une chaine de caractère avec du json -> com pas au bon endroit
 	 if err != nil {
         panic(err)
     }
 	var t models.Collection
 	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
-	if err != nil {
-        fmt.Println("cc3")
-    }
 	collections, err := collections.PostAUser(t) // qui se retrouve dans repository/service
 	if err != nil {
 		// logging error
@@ -51,7 +44,6 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	fmt.Println("cc4")
 	w.WriteHeader(http.StatusOK)
 	body, _ = json.Marshal(collections)// je le veux en json 
 	_, _ = w.Write(body) // Bytes()
