@@ -37,7 +37,7 @@ func init() { // initialise la base de données
 		`CREATE TABLE IF NOT EXISTS Users (
 			id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE,
 			name VARCHAR(255) NOT NULL,
-			username VARCHAR(255) NOT NULL,
+			username VARCHAR(255) NOT NULL UNIQUE,
 			date_inscription DATE NOT NULL
 		);`,
 	}
