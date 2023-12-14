@@ -15,11 +15,12 @@ import (
 
 // GetCollections
 // @Tags         collections
-// @Summary      Get collections.
-// @Description  Get collections.
-// @Success      200            {array}  models.Collection
+// @Summary      Put a User.
+// @Description  Put a User.
+// @Success      200             {object}  models.Collection
+// @Failure      404             "User not found"
 // @Failure      500             "Something went wrong"
-// @Router       /collections [get]
+// @Router       /collections/{id} [put]
 
 func PutUser(w http.ResponseWriter, r *http.Request) {
 
