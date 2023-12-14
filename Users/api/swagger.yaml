@@ -1,10 +1,14 @@
 basePath: /
 definitions:
-  models.Collection:
+  models.User:
     properties:
-      content:
+      date_inscription:
         type: string
       id:
+        type: string
+      name:
+        type: string
+      username:
         type: string
     type: object
 info:
@@ -17,22 +21,22 @@ info:
 paths:
   /collections:
     get:
-      description: Get collections.
+      description: Get Users.
       responses:
         "200":
           description: OK
           schema:
             items:
-              $ref: '#/definitions/models.Collection'
+              $ref: '#/definitions/models.User'
             type: array
         "500":
           description: Something went wrong
-      summary: Get collections.
+      summary: Get Users.
       tags:
       - collections
   /collections/{id}:
     get:
-      description: Get a collection.
+      description: Get a User.
       parameters:
       - description: Collection UUID formatted ID
         in: path
@@ -43,12 +47,12 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Collection'
+            $ref: '#/definitions/models.User'
         "422":
           description: Cannot parse id
         "500":
           description: Something went wrong
-      summary: Get a collection.
+      summary: Get a User.
       tags:
       - collections
 schemes:

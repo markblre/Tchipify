@@ -20,18 +20,18 @@ const docTemplate = `{
     "paths": {
         "/collections": {
             "get": {
-                "description": "Get collections.",
+                "description": "Get Users.",
                 "tags": [
                     "collections"
                 ],
-                "summary": "Get collections.",
+                "summary": "Get Users.",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/models.Collection"
+                                "$ref": "#/definitions/models.User"
                             }
                         }
                     },
@@ -43,11 +43,11 @@ const docTemplate = `{
         },
         "/collections/{id}": {
             "get": {
-                "description": "Get a collection.",
+                "description": "Get a User.",
                 "tags": [
                     "collections"
                 ],
-                "summary": "Get a collection.",
+                "summary": "Get a User.",
                 "parameters": [
                     {
                         "type": "string",
@@ -61,7 +61,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Collection"
+                            "$ref": "#/definitions/models.User"
                         }
                     },
                     "422": {
@@ -75,13 +75,19 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.Collection": {
+        "models.User": {
             "type": "object",
             "properties": {
-                "content": {
+                "date_inscription": {
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
