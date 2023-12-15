@@ -2,22 +2,27 @@ package ratings
 
 import (
 	"encoding/json"
+	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	"middleware/example/internal/services/ratings"
 	"net/http"
 )
 
-// GetRatings
+// GetSongRatings
 // @Tags         ratings
-// @Summary      Get ratings.
-// @Description  Get ratings.
+// @Summary      Get song ratings.
+// @Description  Get song ratings.
+// @Param        songId        path      	string  true   "Song UUID formatted ID"
 // @Success      200            {array}  models.Rating
 // @Failure      500             "Something went wrong"
-// @Router       /ratings [get]
-func GetRatings(w http.ResponseWriter, _ *http.Request) {
+// @Router       /songs/{songId}/ratings [get]
+func GetSongRatings(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	songId, _ := ctx.Value("songId").(uuid.UUID)
+
 	// calling service
-	ratings, err := ratings.GetAllRatings()
+	ratings, err := ratings.GetAllRatingsBySongId(songId)
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -33,6 +38,8 @@ func GetRatings(w http.ResponseWriter, _ *http.Request) {
 		}
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(ratings)

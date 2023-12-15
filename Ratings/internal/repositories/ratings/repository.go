@@ -6,12 +6,12 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllRatings() ([]models.Rating, error) {
+func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	rows, err := db.Query("SELECT * FROM ratings")
+	rows, err := db.Query("SELECT * FROM ratings WHERE song_id=?", songId.String())
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err

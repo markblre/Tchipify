@@ -11,13 +11,13 @@ import (
 	"net/http"
 )
 
-func Ctx(next http.Handler) http.Handler {
+func CtxOnlySongId(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ratingId, err := uuid.FromString(chi.URLParam(r, "id"))
+		songId, err := uuid.FromString(chi.URLParam(r, "songId"))
 		if err != nil {
 			logrus.Errorf("parsing error : %s", err.Error())
 			customError := &models.CustomError{
-				Message: fmt.Sprintf("cannot parse id (%s) as UUID", chi.URLParam(r, "id")),
+				Message: fmt.Sprintf("cannot parse id (%s) as UUID", chi.URLParam(r, "songId")),
 				Code:    http.StatusUnprocessableEntity,
 			}
 			w.WriteHeader(customError.Code)
@@ -26,7 +26,7 @@ func Ctx(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "ratingId", ratingId)
+		ctx := context.WithValue(r.Context(), "songId", songId)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

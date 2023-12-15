@@ -12,11 +12,10 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	r.Route("/ratings", func(r chi.Router) {
-		r.Get("/", ratings.GetRatings)
-		r.Route("/{id}", func(r chi.Router) {
-			r.Use(ratings.Ctx)
-			r.Get("/", ratings.GetRating)
+	r.Route("/songs/{songId}", func(r chi.Router) {
+		r.Route("/ratings", func(r chi.Router) {
+			r.Use(ratings.CtxOnlySongId)
+			r.Get("/", ratings.GetSongRatings)
 		})
 	})
 
@@ -36,7 +35,7 @@ func init() {
     		rating INT NOT NULL,
     		rating_date DATE NOT NULL,
     		song_id VARCHAR(255) NOT NULL,
-    		user_id VARCHAR(255) NOT NULL,
+    		user_id VARCHAR(255) NOT NULL
 		);`,
 	}
 	for _, scheme := range schemes {

@@ -9,10 +9,10 @@ import (
 	"net/http"
 )
 
-func GetAllRatings() ([]models.Rating, error) {
+func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
 	var err error
 	// calling repository
-	ratings, err := repository.GetAllRatings()
+	ratings, err := repository.GetAllRatingsBySongId(songId)
 	// managing errors
 	if err != nil {
 		logrus.Errorf("error retrieving ratings : %s", err.Error())
