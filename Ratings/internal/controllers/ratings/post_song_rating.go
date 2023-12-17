@@ -19,12 +19,12 @@ import (
 // @Failure      422            "missing fields"
 // @Failure      422            "rating must be between 0 and 5"
 // @Failure      500            "Something went wrong"
-// @Router       /songs/{songId}/ratings [post]
+// @Router       /songs/{song_id}/ratings [post]
 func PostSongRating(w http.ResponseWriter, r *http.Request) {
 	var ratingRequest models.RatingRequest
 
 	ctx := r.Context()
-	songId, _ := ctx.Value("songId").(uuid.UUID)
+	songID, _ := ctx.Value("song_id").(uuid.UUID)
 
 	err := json.NewDecoder(r.Body).Decode(&ratingRequest)
 	if err != nil {
@@ -34,7 +34,7 @@ func PostSongRating(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	rating, err := ratings.PostSongRating(songId, ratingRequest)
+	rating, err := ratings.PostSongRating(songID, ratingRequest)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -50,7 +50,7 @@ func PostSongRating(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	ratingURL := "/songs/" + rating.Song_id.String() + "/ratings/" + rating.Id.String()
+	ratingURL := "/songs/" + rating.SongID.String() + "/ratings/" + rating.Id.String()
 	w.Header().Set("Location", ratingURL)
 
 	w.WriteHeader(http.StatusCreated)

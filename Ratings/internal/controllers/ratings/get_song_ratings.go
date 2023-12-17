@@ -13,16 +13,16 @@ import (
 // @Tags         ratings
 // @Summary      Get song ratings.
 // @Description  Get song ratings.
-// @Param        songId        path      	string  true   "Song UUID formatted ID"
+// @Param        song_id        path      	string  true   "Song UUID formatted ID"
 // @Success      200            {array}  models.Rating
 // @Failure      500             "Something went wrong"
-// @Router       /songs/{songId}/ratings [get]
+// @Router       /songs/{song_id}/ratings [get]
 func GetSongRatings(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	songId, _ := ctx.Value("songId").(uuid.UUID)
+	songID, _ := ctx.Value("songId").(uuid.UUID)
 
 	// calling service
-	ratings, err := ratings.GetAllRatingsBySongId(songId)
+	ratings, err := ratings.GetAllRatingsBySongId(songID)
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())

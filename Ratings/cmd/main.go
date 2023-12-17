@@ -12,7 +12,7 @@ import (
 func main() {
 	r := chi.NewRouter()
 
-	r.Route("/songs/{songId}", func(r chi.Router) {
+	r.Route("/songs/{song_id}", func(r chi.Router) {
 		r.Route("/ratings", func(r chi.Router) {
 			r.Use(ratings.CtxOnlySongId)
 			r.Get("/", ratings.GetSongRatings)

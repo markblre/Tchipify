@@ -6,12 +6,12 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
+func GetAllRatingsBySongId(songID uuid.UUID) ([]models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	rows, err := db.Query("SELECT * FROM ratings WHERE song_id=?", songId.String())
+	rows, err := db.Query("SELECT * FROM ratings WHERE song_id=?", songID.String())
 	helpers.CloseDB(db)
 	if err != nil {
 		return nil, err
@@ -21,7 +21,7 @@ func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
 	ratings := []models.Rating{}
 	for rows.Next() {
 		var data models.Rating
-		err = rows.Scan(&data.Id, &data.Comment, &data.Rating, &data.Rating_date, &data.Song_id, &data.User_id)
+		err = rows.Scan(&data.Id, &data.Comment, &data.Rating, &data.RatingDate, &data.SongID, &data.UserID)
 		if err != nil {
 			return nil, err
 		}
@@ -42,7 +42,7 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	helpers.CloseDB(db)
 
 	var rating models.Rating
-	err = row.Scan(&rating.Id, &rating.Comment, &rating.Rating, &rating.Rating_date, &rating.Song_id, &rating.User_id)
+	err = row.Scan(&rating.Id, &rating.Comment, &rating.Rating, &rating.RatingDate, &rating.SongID, &rating.UserID)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +55,7 @@ func PostRating(newRating models.Rating) error {
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO ratings (id, comment, rating, rating_date, song_id, user_id) VALUES (?, ?, ?, ?, ?, ?);", newRating.Id.String(), newRating.Comment, newRating.Rating, newRating.Rating_date, newRating.Song_id.String(), newRating.User_id.String())
+	_, err = db.Exec("INSERT INTO ratings (id, comment, rating, rating_date, song_id, user_id) VALUES (?, ?, ?, ?, ?, ?);", newRating.Id.String(), newRating.Comment, newRating.Rating, newRating.RatingDate, newRating.SongID.String(), newRating.UserID.String())
 	if err != nil {
 		return err
 	}

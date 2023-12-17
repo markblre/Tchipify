@@ -11,10 +11,10 @@ import (
 	"time"
 )
 
-func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
+func GetAllRatingsBySongId(songID uuid.UUID) ([]models.Rating, error) {
 	var err error
 	// calling repository
-	ratings, err := repository.GetAllRatingsBySongId(songId)
+	ratings, err := repository.GetAllRatingsBySongId(songID)
 	// managing errors
 	if err != nil {
 		logrus.Errorf("error retrieving ratings : %s", err.Error())
@@ -46,8 +46,8 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	return rating, err
 }
 
-func PostSongRating(songId uuid.UUID, ratingRequest models.RatingRequest) (*models.Rating, error) {
-	if ratingRequest.Comment == nil || ratingRequest.Rating == nil || ratingRequest.User_id == nil {
+func PostSongRating(songID uuid.UUID, ratingRequest models.RatingRequest) (*models.Rating, error) {
+	if ratingRequest.Comment == nil || ratingRequest.Rating == nil || ratingRequest.UserID == nil {
 		return nil, &models.CustomError{
 			Message: "missing fields",
 			Code:    http.StatusUnprocessableEntity,
@@ -61,11 +61,11 @@ func PostSongRating(songId uuid.UUID, ratingRequest models.RatingRequest) (*mode
 		}
 	}
 
-	userId, err := uuid.FromString(*ratingRequest.User_id)
+	userID, err := uuid.FromString(*ratingRequest.UserID)
 	if err != nil {
 		logrus.Errorf("parsing error : %s", err.Error())
 		return nil, &models.CustomError{
-			Message: fmt.Sprintf("cannot parse id (%s) as UUID", ratingRequest.User_id),
+			Message: fmt.Sprintf("cannot parse id (%s) as UUID", ratingRequest.UserID),
 			Code:    http.StatusUnprocessableEntity,
 		}
 	}
@@ -80,12 +80,12 @@ func PostSongRating(songId uuid.UUID, ratingRequest models.RatingRequest) (*mode
 	}
 
 	newRating := models.Rating{
-		Id:          id,
-		Comment:     *ratingRequest.Comment,
-		Rating:      *ratingRequest.Rating,
-		Rating_date: time.Now(),
-		Song_id:     songId,
-		User_id:     userId,
+		Id:         id,
+		Comment:    *ratingRequest.Comment,
+		Rating:     *ratingRequest.Rating,
+		RatingDate: time.Now(),
+		SongID:     songID,
+		UserID:     userID,
 	}
 
 	err = repository.PostRating(newRating)
