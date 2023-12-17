@@ -27,8 +27,8 @@ func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) 
 	return ratings, nil
 }
 
-func GetRatingById(id uuid.UUID) (*models.Rating, error) {
-	rating, err := repository.GetRatingById(id)
+func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
+	rating, err := repository.GetSongRatingByIDs(songID, ratingID)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
@@ -36,7 +36,7 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 				Code:    http.StatusNotFound,
 			}
 		}
-		logrus.Errorf("error retrieving ratings : %s", err.Error())
+		logrus.Errorf("error retrieving rating : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,

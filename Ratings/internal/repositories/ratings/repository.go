@@ -33,12 +33,12 @@ func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) 
 	return ratings, err
 }
 
-func GetRatingById(id uuid.UUID) (*models.Rating, error) {
+func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT * FROM ratings WHERE id=?", id.String())
+	row := db.QueryRow("SELECT * FROM ratings WHERE song_id=? AND id=?", songID.String(), ratingID.String())
 	helpers.CloseDB(db)
 
 	var rating models.Rating

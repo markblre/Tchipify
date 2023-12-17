@@ -9,20 +9,23 @@ import (
 	"net/http"
 )
 
-// GetRating
+// GetSongRating
 // @Tags         ratings
-// @Summary      Get a rating.
-// @Description  Get a rating.
-// @Param        id           	path      string  true  "Rating UUID formatted ID"
+// @Summary      Get a song rating.
+// @Description  Get a song rating.
+// @Param        song_id        path      string  true  "Song UUID formatted ID"
+// @Param        rating_id      path      string  true  "Rating UUID formatted ID"
 // @Success      200            {object}  models.Rating
+// @Failure      404            "Rating not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
-// @Router       /ratings/{id} [get]
-func GetRating(w http.ResponseWriter, r *http.Request) {
+// @Router       /songs/{song_id}/ratings/{rating_id} [get]
+func GetSongRating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	ratingId, _ := ctx.Value("ratingId").(uuid.UUID)
+	songID, _ := ctx.Value("song_id").(uuid.UUID)
+	ratingID, _ := ctx.Value("rating_id").(uuid.UUID)
 
-	rating, err := ratings.GetRatingById(ratingId)
+	rating, err := ratings.GetSongRatingByIDs(songID, ratingID)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -35,6 +38,8 @@ func GetRating(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
 
 	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(rating)
