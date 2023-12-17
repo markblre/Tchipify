@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func CtxOnlySongId(next http.Handler) http.Handler {
+func CtxOnlySongID(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		songID, err := uuid.FromString(chi.URLParam(r, "song_id"))
 		if err != nil {

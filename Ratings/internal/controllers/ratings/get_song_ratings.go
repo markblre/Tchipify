@@ -22,7 +22,7 @@ func GetSongRatings(w http.ResponseWriter, r *http.Request) {
 	songID, _ := ctx.Value("songId").(uuid.UUID)
 
 	// calling service
-	ratings, err := ratings.GetAllRatingsBySongId(songID)
+	ratings, err := ratings.GetAllTheRatingsForASongByItsID(songID)
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())

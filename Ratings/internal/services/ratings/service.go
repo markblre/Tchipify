@@ -11,10 +11,10 @@ import (
 	"time"
 )
 
-func GetAllRatingsBySongId(songID uuid.UUID) ([]models.Rating, error) {
+func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) {
 	var err error
 	// calling repository
-	ratings, err := repository.GetAllRatingsBySongId(songID)
+	ratings, err := repository.GetAllTheRatingsForASongByItsID(songID)
 	// managing errors
 	if err != nil {
 		logrus.Errorf("error retrieving ratings : %s", err.Error())

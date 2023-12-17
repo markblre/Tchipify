@@ -6,7 +6,7 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllRatingsBySongId(songID uuid.UUID) ([]models.Rating, error) {
+func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
