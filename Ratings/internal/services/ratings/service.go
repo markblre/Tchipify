@@ -2,11 +2,13 @@ package ratings
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 	"middleware/example/internal/models"
 	repository "middleware/example/internal/repositories/ratings"
 	"net/http"
+	"time"
 )
 
 func GetAllRatingsBySongId(songId uuid.UUID) ([]models.Rating, error) {
@@ -42,4 +44,58 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	}
 
 	return rating, err
+}
+
+func PostSongRating(songId uuid.UUID, ratingRequest models.RatingRequest) (*models.Rating, error) {
+	if ratingRequest.Comment == nil || ratingRequest.Rating == nil || ratingRequest.User_id == nil {
+		return nil, &models.CustomError{
+			Message: "missing fields",
+			Code:    http.StatusUnprocessableEntity,
+		}
+	}
+
+	if *ratingRequest.Rating < 0 || *ratingRequest.Rating > 5 {
+		return nil, &models.CustomError{
+			Message: "rating must be between 0 and 5",
+			Code:    http.StatusUnprocessableEntity,
+		}
+	}
+
+	userId, err := uuid.FromString(*ratingRequest.User_id)
+	if err != nil {
+		logrus.Errorf("parsing error : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: fmt.Sprintf("cannot parse id (%s) as UUID", ratingRequest.User_id),
+			Code:    http.StatusUnprocessableEntity,
+		}
+	}
+
+	id, err := uuid.NewV4()
+	if err != nil {
+		logrus.Errorf("error creating uuid : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	newRating := models.Rating{
+		Id:          id,
+		Comment:     *ratingRequest.Comment,
+		Rating:      *ratingRequest.Rating,
+		Rating_date: time.Now(),
+		Song_id:     songId,
+		User_id:     userId,
+	}
+
+	err = repository.PostRating(newRating)
+	if err != nil {
+		logrus.Errorf("Error adding rating : %s", err.Error())
+		return nil, &models.CustomError{
+			Message: "Something went wrong",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return &newRating, err
 }

@@ -48,3 +48,19 @@ func GetRatingById(id uuid.UUID) (*models.Rating, error) {
 	}
 	return &rating, err
 }
+
+func PostRating(newRating models.Rating) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec("INSERT INTO ratings (id, comment, rating, rating_date, song_id, user_id) VALUES (?, ?, ?, ?, ?, ?);", newRating.Id.String(), newRating.Comment, newRating.Rating, newRating.Rating_date, newRating.Song_id.String(), newRating.User_id.String())
+	if err != nil {
+		return err
+	}
+
+	helpers.CloseDB(db)
+
+	return nil
+}

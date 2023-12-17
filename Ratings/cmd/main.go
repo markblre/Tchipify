@@ -16,6 +16,7 @@ func main() {
 		r.Route("/ratings", func(r chi.Router) {
 			r.Use(ratings.CtxOnlySongId)
 			r.Get("/", ratings.GetSongRatings)
+			r.Post("/", ratings.PostSongRating)
 		})
 	})
 
