@@ -138,3 +138,16 @@ func ModifySongRating(songID uuid.UUID, ratingID uuid.UUID, ratingRequest models
 
 	return rating, err
 }
+
+func DeleteSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) error {
+	err := repository.DeleteSongRatingByIDs(songID, ratingID)
+	if err != nil {
+		logrus.Errorf("Error deleting song : %s", err.Error())
+		return &models.CustomError{
+			Message: "Something went wrong",
+			Code:    http.StatusInternalServerError,
+		}
+	}
+
+	return err
+}

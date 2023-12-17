@@ -21,6 +21,7 @@ func main() {
 				r.Use(ratings.CtxRatingID)
 				r.Get("/", ratings.GetSongRating)
 				r.Put("/", ratings.PutSongRating)
+				r.Delete("/", ratings.DeleteSongRating)
 			})
 		})
 	})

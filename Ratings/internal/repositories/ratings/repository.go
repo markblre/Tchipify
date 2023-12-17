@@ -117,3 +117,19 @@ func ModifySongRating(songID uuid.UUID, ratingID uuid.UUID, newRatingData models
 
 	return &rating, err
 }
+
+func DeleteSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) error {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return err
+	}
+
+	_, err = db.Exec("DELETE FROM ratings WHERE song_id=? AND id=?", songID.String(), ratingID.String())
+	if err != nil {
+		return err
+	}
+
+	helpers.CloseDB(db)
+
+	return err
+}
