@@ -19,7 +19,7 @@ import (
 // @Router       /songs/{song_id}/ratings [get]
 func GetSongRatings(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	songID, _ := ctx.Value("songId").(uuid.UUID)
+	songID, _ := ctx.Value("song_id").(uuid.UUID)
 
 	// calling service
 	ratings, err := ratings.GetAllTheRatingsForASongByItsID(songID)
