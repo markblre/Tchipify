@@ -64,3 +64,56 @@ func PostRating(newRating models.Rating) error {
 
 	return nil
 }
+
+func ModifySongRating(songID uuid.UUID, ratingID uuid.UUID, newRatingData models.RatingRequest) (*models.Rating, error) {
+	db, err := helpers.OpenDB()
+	if err != nil {
+		return nil, err
+	}
+
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
+
+	if newRatingData.Rating != nil {
+		_, err = tx.Exec("UPDATE ratings SET rating=? WHERE song_id=? AND id=?;", newRatingData.Rating, songID.String(), ratingID.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+
+	if newRatingData.Comment != nil {
+		_, err = tx.Exec("UPDATE ratings SET comment=? WHERE song_id=? AND id=?;", newRatingData.Comment, songID.String(), ratingID.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+
+	if newRatingData.UserID != nil {
+		_, err = tx.Exec("UPDATE ratings SET user_id=? WHERE song_id=? AND id=?;", newRatingData.UserID, songID.String(), ratingID.String())
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+
+	row := tx.QueryRow("SELECT * FROM ratings WHERE song_id=? AND id=?", songID.String(), ratingID.String())
+	var rating models.Rating
+	err = row.Scan(&rating.Id, &rating.Comment, &rating.Rating, &rating.RatingDate, &rating.SongID, &rating.UserID)
+	if err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
+
+	helpers.CloseDB(db)
+
+	return &rating, err
+}

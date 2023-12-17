@@ -20,6 +20,7 @@ func main() {
 			r.Route("/{rating_id}", func(r chi.Router) {
 				r.Use(ratings.CtxRatingID)
 				r.Get("/", ratings.GetSongRating)
+				r.Put("/", ratings.PutSongRating)
 			})
 		})
 	})
