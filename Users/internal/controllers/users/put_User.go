@@ -1,5 +1,4 @@
-// post : on envoie dans le body de la requete du json 
-//le post il crée un utilisateur
+
 package users
 
 import (
@@ -30,10 +29,8 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 
 	
 	ctx := r.Context() // context de la requête (on met l'id dans l'url)
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) // uuid -> type de données, CollectionId est un nom que l'on crée
-
-	//il faut recuperer le format json dans le body de la requete 
-	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
+	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) 
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
         // logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -49,12 +46,11 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
     }
-	 // renvoie une chaine de caractère avec du json -> com pas au bon endroit
 	 if err != nil {
         panic(err)
     }
 	var t models.User
-	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
+	err = json.Unmarshal(body, &t)
 	if err != nil {
         // logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -73,7 +69,7 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 
 	t.Id = &collectionId
 
-	collections, err := users.PutAUser(t) // qui se retrouve dans repository/service
+	collections, err := users.PutAUser(t) 
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -90,7 +86,7 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	body, _ = json.Marshal(collections)// je le veux en json 
-	_, _ = w.Write(body) // Bytes()
+	body, _ = json.Marshal(collections)
+	_, _ = w.Write(body) 
 	return
 }

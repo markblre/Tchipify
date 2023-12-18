@@ -36,7 +36,7 @@ func GetUsers(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collections)// je le veux en json 
+	body, _ := json.Marshal(collections)
 	_, _ = w.Write(body)
 	return
 }

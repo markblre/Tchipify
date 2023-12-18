@@ -1,6 +1,5 @@
 package users
 // le service appel le repository
-// le service manage tout et devra générer les ids 
 import (
 	"database/sql"
 	"github.com/gofrs/uuid"
@@ -47,7 +46,7 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	return collection, err
 }
 
-func PostAUser(user models.User) (*models.User, error) { // structure -> models.User
+func PostAUser(user models.User) (*models.User, error) {
 	var err error
 	// calling repository
 	// il creer un id 
@@ -62,7 +61,6 @@ func PostAUser(user models.User) (*models.User, error) { // structure -> models.
 	user.DateInscription=time.Now()
 	err =repository.PostAUser(user)
 	// managing errors
-	//word:="UNIQUE"
 	if err != nil {
 		if strings.Contains( err.Error(),"UNIQUE") { 
 			return  nil,&models.CustomError{ 
@@ -84,7 +82,7 @@ func DeleteUserById(id uuid.UUID) ( error) {
 	err := repository.DeleteUserById(id)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
-			return  &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
+			return  &models.CustomError{ 
 				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}
@@ -99,10 +97,9 @@ func DeleteUserById(id uuid.UUID) ( error) {
 	return err
 }
 
-func PutAUser(user models.User) (*models.User, error) { // structure -> models.User
+func PutAUser(user models.User) (*models.User, error) { 
 	var err error
 	// calling repository
-	// il creer un id 
 	if user.Name == "" && user.Username == ""{
         return nil, &models.CustomError{
             Message: "missing fields",
@@ -112,7 +109,7 @@ func PutAUser(user models.User) (*models.User, error) { // structure -> models.U
 	err =repository.PutAUser(user)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
-			return  nil,&models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
+			return  nil,&models.CustomError{ 
 				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}

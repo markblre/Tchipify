@@ -1,5 +1,4 @@
 package users
-//on modifie rien sur ce fichier 
 import (
 	"context"
 	"encoding/json"
@@ -11,10 +10,10 @@ import (
 	"net/http"
 )
 //gère les requêtes http
-func Ctx(next http.Handler) http.Handler { // c'est un middleware, routeur->middleware -> appel de la fonction 
+func Ctx(next http.Handler) http.Handler { 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		collectionId, err := uuid.FromString(chi.URLParam(r, "id"))
-		if err != nil {   //si il y il y a une erreur on fait ca :
+		if err != nil { 
 			logrus.Errorf("parsing error : %s", err.Error())
 			customError := &models.CustomError{
 				Message: fmt.Sprintf("cannot parse id (%s) as UUID", chi.URLParam(r, "id")),

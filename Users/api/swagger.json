@@ -11,7 +11,7 @@
     "swagger": "2.0",
     "info": {
         "description": "API to manage Users.",
-        "title": "middleware/example",
+        "title": "users",
         "contact": {
             "name": "Lena COMBRONDE.",
             "email": "Lena.combronde@etu.uca.fr"

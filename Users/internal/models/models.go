@@ -4,7 +4,7 @@ import (
 	"github.com/gofrs/uuid"
 	"time"
 )
-//normalement fini
+
 type 	User struct {
 	Id      *uuid.UUID `json:"id"`
 	Name string     `json:"name"`

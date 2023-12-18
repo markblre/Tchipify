@@ -18,7 +18,7 @@ info:
     email: Lena.combronde@etu.uca.fr
     name: Lena COMBRONDE.
   description: API to manage Users.
-  title: middleware/example
+  title: users
   version: 1.0.0
 paths:
   /users:

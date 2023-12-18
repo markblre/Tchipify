@@ -6,9 +6,7 @@ import (
 	"middleware/example/internal/models"
 	
 )
-//"database/sql" 
 func GetAllCollections() ([]models.User, error) {
-	//ouvrir la base de données 
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -50,14 +48,12 @@ func GetCollectionById(id uuid.UUID) (*models.User, error) {
 	return &collection, err
 }
 
-func PostAUser(user models.User) (error) {// un seul User 
-	//ouvrir la base de données 
+func PostAUser(user models.User) (error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return  err
 	}
 	 _,err2 := db.Exec("INSERT INTO Users(id, name, username, date_inscription) VALUES (?,?,?,?)",user.Id, user.Name, user.Username, user.DateInscription)
-	 //regarder si ca génère des erreurs 
 	//La valeur 'sql.Result' fournit des informations supplémentaires sur l'opération de mise à jour ou d'insertion, telles que le nombre de lignes affectées ou le dernier ID inséré.
 	helpers.CloseDB(db)
 
@@ -78,8 +74,7 @@ func DeleteUserById(id uuid.UUID) (error) {
 	return err
 }
 
-func PutAUser(user models.User) (error) {// un seul User 
-	//ouvrir la base de données 
+func PutAUser(user models.User) (error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return  err
@@ -90,8 +85,6 @@ func PutAUser(user models.User) (error) {// un seul User
 	if (user.Username!= ""){
 		_,err = db.Exec("UPDATE Users SET  username=? WHERE id= ? ", user.Username, user.Id)
 	}
-	 //regarder si ca génère des erreurs 
-	//La valeur 'sql.Result' fournit des informations supplémentaires sur l'opération de mise à jour ou d'insertion, telles que le nombre de lignes affectées ou le dernier ID inséré.
 	helpers.CloseDB(db)
 
 	return  err

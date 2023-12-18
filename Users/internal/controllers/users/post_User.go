@@ -1,5 +1,4 @@
-// post : on envoie dans le body de la requete du json 
-//le post il crée un utilisateur
+
 package users
 
 import (
@@ -25,13 +24,12 @@ import (
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
 	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
-	 // renvoie une chaine de caractère avec du json -> com pas au bon endroit
 	 if err != nil {
         panic(err)
     }
 	var t models.User
-	err = json.Unmarshal(body, &t)// je veux une structure go -> a refaire 
-	collections, err := users.PostAUser(t) // qui se retrouve dans repository/service
+	err = json.Unmarshal(body, &t)// je veux une structure go 
+	collections, err := users.PostAUser(t) 
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -48,7 +46,7 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	body, _ = json.Marshal(collections)// je le veux en json 
-	_, _ = w.Write(body) // Bytes()
+	body, _ = json.Marshal(collections)
+	_, _ = w.Write(body) 
 	return
 }

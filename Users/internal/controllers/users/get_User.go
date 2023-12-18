@@ -22,12 +22,12 @@ import (
 // @Router       /users/{id} [get]
 func GetUser(w http.ResponseWriter, r *http.Request) { // http.Request -> la requete http
 																// ResponseWriter -> contient la reponse 
-	ctx := r.Context() // context de la requête (on met l'id dans l'url)
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) // uuid -> type de données, CollectionId est un nom que l'on crée
+	ctx := r.Context() 
+	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) 
 
 	collection, err := users.GetUserById(collectionId)
 	if err != nil {
-		logrus.Errorf("error : %s", err.Error())// la doc de logrus est expliquée dans le tp
+		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
 		if isCustom {
 			w.WriteHeader(customError.Code)
@@ -40,7 +40,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) { // http.Request -> la req
 	}
 
 	w.WriteHeader(http.StatusOK) // -> met le statut de la requete 
-	body, _ := json.Marshal(collection) // -> string en json
-	_, _ = w.Write(body) // ca ecrit le body dans la réponse c'est à dire renvoie la collection 
+	body, _ := json.Marshal(collection) // -> Passer de string à json
+	_, _ = w.Write(body) // ecrit le body dans la réponse c'est à dire renvoie la collection 
 	return
 }

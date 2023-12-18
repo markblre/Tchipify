@@ -22,11 +22,11 @@ import (
 // @Router        /users/{id} [delete]
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context() // context de la requête (on met l'id dans l'url)
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) // uuid -> type de données, CollectionId est un nom que l'on crée
+	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) 
 
 	err := users.DeleteUserById(collectionId)
 	if err != nil {
-		logrus.Errorf("error : %s", err.Error())// la doc de logrus est expliquée dans le tp
+		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
 		if isCustom {
 			w.WriteHeader(customError.Code)
