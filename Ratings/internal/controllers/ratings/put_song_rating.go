@@ -13,8 +13,8 @@ import (
 // @Tags         ratings
 // @Summary      Modify a song rating.
 // @Description  Modify a song rating.
-// @Param        song_id        path      	string  				true  	"id of the sound concerned by the rating"
-// @Param        rating_id      path      	string  				true  	"id of the rating"
+// @Param        song_id        path      	string  				true  	"Song UUID formatted ID"
+// @Param        rating_id      path      	string  				true  	"Rating UUID formatted ID"
 // @Param        ratingRequest  body  		models.RatingRequest 	true	"rating request"
 // @Success      200            {object}  	models.Rating
 // @Failure      404            "rating not found"

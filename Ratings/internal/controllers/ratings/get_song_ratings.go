@@ -13,9 +13,10 @@ import (
 // @Tags         ratings
 // @Summary      Get song ratings.
 // @Description  Get song ratings.
-// @Param        song_id        path      	string  true   "Song UUID formatted ID"
+// @Param        song_id        path     string  true   "Song UUID formatted ID"
 // @Success      200            {array}  models.Rating
-// @Failure      500             "Something went wrong"
+// @Failure      422            "Cannot parse id"
+// @Failure      500            "Something went wrong"
 // @Router       /songs/{song_id}/ratings [get]
 func GetSongRatings(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()

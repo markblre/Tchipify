@@ -5,26 +5,41 @@ import "github.com/swaggo/swag"
 
 const docTemplate = `{
     "schemes": {{ marshal .Schemes }},
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
     "swagger": "2.0",
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Justine Bachelard.",
-            "email": "justine.bachelard@ext.uca.fr"
+            "name": "Mark Ballereau",
+            "email": "mark.ballereau@etu.uca.fr"
         },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/ratings": {
+        "/songs/{song_id}/ratings": {
             "get": {
-                "description": "Get ratings.",
+                "description": "Get song ratings.",
                 "tags": [
                     "ratings"
                 ],
-                "summary": "Get ratings.",
+                "summary": "Get song ratings.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -35,24 +50,73 @@ const docTemplate = `{
                             }
                         }
                     },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "post": {
+                "description": "Post a song rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Post a song rating.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "rating request",
+                        "name": "ratingRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RatingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Rating"
+                        }
+                    },
+                    "422": {
+                        "description": "rating must be between 0 and 5"
+                    },
                     "500": {
                         "description": "Something went wrong"
                     }
                 }
             }
         },
-        "/ratings/{id}": {
+        "/songs/{song_id}/ratings/{rating_id}": {
             "get": {
-                "description": "Get a rating.",
+                "description": "Get a song rating.",
                 "tags": [
                     "ratings"
                 ],
-                "summary": "Get a rating.",
+                "summary": "Get a song rating.",
                 "parameters": [
                     {
                         "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "Rating UUID formatted ID",
-                        "name": "id",
+                        "name": "rating_id",
                         "in": "path",
                         "required": true
                     }
@@ -63,6 +127,92 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Rating"
                         }
+                    },
+                    "404": {
+                        "description": "Rating not found"
+                    },
+                    "422": {
+                        "description": "Cannot parse id"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "put": {
+                "description": "Modify a song rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Modify a song rating.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Rating UUID formatted ID",
+                        "name": "rating_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "rating request",
+                        "name": "ratingRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RatingRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Rating"
+                        }
+                    },
+                    "404": {
+                        "description": "rating not found"
+                    },
+                    "422": {
+                        "description": "rating must be between 0 and 5"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a song rating.",
+                "tags": [
+                    "ratings"
+                ],
+                "summary": "Delete a song rating.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Song UUID formatted ID",
+                        "name": "song_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Rating UUID formatted ID",
+                        "name": "rating_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     },
                     "422": {
                         "description": "Cannot parse id"
@@ -78,10 +228,36 @@ const docTemplate = `{
         "models.Rating": {
             "type": "object",
             "properties": {
-                "content": {
+                "comment": {
                     "type": "string"
                 },
                 "id": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "rating_date": {
+                    "type": "string"
+                },
+                "song_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.RatingRequest": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "integer"
+                },
+                "user_id": {
                     "type": "string"
                 }
             }
@@ -95,7 +271,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/",
 	Schemes:          []string{"http"},
-	Title:            "middleware/example",
+	Title:            "Ratings API",
 	Description:      "API to manage ratings.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

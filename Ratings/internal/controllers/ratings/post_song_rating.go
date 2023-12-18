@@ -13,9 +13,10 @@ import (
 // @Tags         ratings
 // @Summary      Post a song rating.
 // @Description  Post a song rating.
-// @Param        song_id        path      	string  				true  	"id of the sound concerned by the rating"
+// @Param        song_id        path      	string  				true  	"Song UUID formatted ID"
 // @Param        ratingRequest  body  		models.RatingRequest 	true	"rating request"
 // @Success      200            {object}  	models.Rating
+// @Failure      422            "Cannot parse id"
 // @Failure      422            "missing fields"
 // @Failure      422            "rating must be between 0 and 5"
 // @Failure      500            "Something went wrong"
