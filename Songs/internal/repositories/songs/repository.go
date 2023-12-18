@@ -33,7 +33,7 @@ func GetAllSongs() ([]models.Song, error) {
 	return songs, err
 }
 
-func GetSongById(id uuid.UUID) (*models.Song, error) {
+func GetSong(id uuid.UUID) (*models.Song, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return &song, err
 }
 
-func PostSong(newSong models.Song) error {
+func AddSong(newSong models.Song) error {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return err
@@ -65,7 +65,7 @@ func PostSong(newSong models.Song) error {
 	return nil
 }
 
-func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
+func ModifySong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err

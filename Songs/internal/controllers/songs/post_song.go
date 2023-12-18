@@ -29,7 +29,7 @@ func PostSong(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	song, err := songs.PostSong(songRequest)
+	song, err := songs.AddSong(songRequest)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

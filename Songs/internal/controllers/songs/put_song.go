@@ -34,7 +34,7 @@ func PutSong(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	song, err := songs.PutSong(songId, newSongData)
+	song, err := songs.ModifySong(songId, newSongData)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

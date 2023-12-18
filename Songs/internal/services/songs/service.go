@@ -26,8 +26,8 @@ func GetAllSongs() ([]models.Song, error) {
 	return songs, nil
 }
 
-func GetSongById(id uuid.UUID) (*models.Song, error) {
-	song, err := repository.GetSongById(id)
+func GetSong(id uuid.UUID) (*models.Song, error) {
+	song, err := repository.GetSong(id)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
@@ -45,7 +45,7 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 	return song, err
 }
 
-func PostSong(songRequest models.SongRequest) (*models.Song, error) {
+func AddSong(songRequest models.SongRequest) (*models.Song, error) {
 	if songRequest.Artist == nil || songRequest.File_name == nil || songRequest.Title == nil {
 		return nil, &models.CustomError{
 			Message: "missing fields",
@@ -70,7 +70,7 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 		Title:          *songRequest.Title,
 	}
 
-	err = repository.PostSong(newSong)
+	err = repository.AddSong(newSong)
 	if err != nil {
 		logrus.Errorf("Error adding song : %s", err.Error())
 		return nil, &models.CustomError{
@@ -82,8 +82,8 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 	return &newSong, err
 }
 
-func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
-	song, err := repository.PutSong(songId, newSongData)
+func ModifySong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
+	song, err := repository.ModifySong(songId, newSongData)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{

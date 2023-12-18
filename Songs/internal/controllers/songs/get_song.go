@@ -22,7 +22,7 @@ func GetSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	songId, _ := ctx.Value("songId").(uuid.UUID)
 
-	song, err := songs.GetSongById(songId)
+	song, err := songs.GetSong(songId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
