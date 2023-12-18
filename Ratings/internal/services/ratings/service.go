@@ -11,10 +11,10 @@ import (
 	"time"
 )
 
-func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) {
+func GetAllRatingsForASong(songID uuid.UUID) ([]models.Rating, error) {
 	var err error
 	// calling repository
-	ratings, err := repository.GetAllTheRatingsForASongByItsID(songID)
+	ratings, err := repository.GetAllRatingsForASong(songID)
 	// managing errors
 	if err != nil {
 		logrus.Errorf("error retrieving ratings : %s", err.Error())
@@ -27,8 +27,8 @@ func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) 
 	return ratings, nil
 }
 
-func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
-	rating, err := repository.GetSongRatingByIDs(songID, ratingID)
+func GetSongRating(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
+	rating, err := repository.GetSongRating(songID, ratingID)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
@@ -46,7 +46,7 @@ func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, e
 	return rating, err
 }
 
-func PostSongRating(songID uuid.UUID, ratingRequest models.RatingRequest) (*models.Rating, error) {
+func AddSongRating(songID uuid.UUID, ratingRequest models.RatingRequest) (*models.Rating, error) {
 	if ratingRequest.Comment == nil || ratingRequest.Rating == nil || ratingRequest.UserID == nil {
 		return nil, &models.CustomError{
 			Message: "missing fields",
@@ -88,7 +88,7 @@ func PostSongRating(songID uuid.UUID, ratingRequest models.RatingRequest) (*mode
 		UserID:     userID,
 	}
 
-	err = repository.PostRating(newRating)
+	err = repository.AddSongRating(newRating)
 	if err != nil {
 		logrus.Errorf("Error adding rating : %s", err.Error())
 		return nil, &models.CustomError{
@@ -139,8 +139,8 @@ func ModifySongRating(songID uuid.UUID, ratingID uuid.UUID, ratingRequest models
 	return rating, err
 }
 
-func DeleteSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) error {
-	err := repository.DeleteSongRatingByIDs(songID, ratingID)
+func DeleteSongRating(songID uuid.UUID, ratingID uuid.UUID) error {
+	err := repository.DeleteSongRating(songID, ratingID)
 	if err != nil {
 		logrus.Errorf("Error deleting song : %s", err.Error())
 		return &models.CustomError{

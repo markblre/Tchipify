@@ -6,7 +6,7 @@ import (
 	"middleware/example/internal/models"
 )
 
-func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) {
+func GetAllRatingsForASong(songID uuid.UUID) ([]models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func GetAllTheRatingsForASongByItsID(songID uuid.UUID) ([]models.Rating, error) 
 	return ratings, err
 }
 
-func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
+func GetSongRating(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func GetSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) (*models.Rating, e
 	return &rating, err
 }
 
-func PostRating(newRating models.Rating) error {
+func AddSongRating(newRating models.Rating) error {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return err
@@ -118,7 +118,7 @@ func ModifySongRating(songID uuid.UUID, ratingID uuid.UUID, newRatingData models
 	return &rating, err
 }
 
-func DeleteSongRatingByIDs(songID uuid.UUID, ratingID uuid.UUID) error {
+func DeleteSongRating(songID uuid.UUID, ratingID uuid.UUID) error {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return err

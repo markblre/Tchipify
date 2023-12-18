@@ -25,7 +25,7 @@ func GetSongRating(w http.ResponseWriter, r *http.Request) {
 	songID, _ := ctx.Value("song_id").(uuid.UUID)
 	ratingID, _ := ctx.Value("rating_id").(uuid.UUID)
 
-	rating, err := ratings.GetSongRatingByIDs(songID, ratingID)
+	rating, err := ratings.GetSongRating(songID, ratingID)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
