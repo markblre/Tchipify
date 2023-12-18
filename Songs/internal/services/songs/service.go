@@ -46,7 +46,7 @@ func GetSongById(id uuid.UUID) (*models.Song, error) {
 }
 
 func PostSong(songRequest models.SongRequest) (*models.Song, error) {
-	if songRequest.Artist == "" || songRequest.File_name == "" || songRequest.Title == "" {
+	if songRequest.Artist == nil || songRequest.File_name == nil || songRequest.Title == nil {
 		return nil, &models.CustomError{
 			Message: "missing fields",
 			Code:    http.StatusUnprocessableEntity,
@@ -63,11 +63,11 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 	}
 
 	newSong := models.Song{
-		Id:             &id,
-		Artist:         songRequest.Artist,
-		File_name:      songRequest.File_name,
+		Id:             id,
+		Artist:         *songRequest.Artist,
+		File_name:      *songRequest.File_name,
 		Published_date: time.Now(),
-		Title:          songRequest.Title,
+		Title:          *songRequest.Title,
 	}
 
 	err = repository.PostSong(newSong)

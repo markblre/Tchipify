@@ -76,24 +76,24 @@ func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, er
 		return nil, err
 	}
 
-	if newSongData.Artist != "" {
-		_, err = tx.Exec("UPDATE songs SET artist=? WHERE id=?;", newSongData.Artist, songId.String())
+	if newSongData.Artist != nil {
+		_, err = tx.Exec("UPDATE songs SET artist=? WHERE id=?;", &newSongData.Artist, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
 	}
 
-	if newSongData.File_name != "" {
-		_, err = tx.Exec("UPDATE songs SET file_name=? WHERE id=?;", newSongData.File_name, songId.String())
+	if newSongData.File_name != nil {
+		_, err = tx.Exec("UPDATE songs SET file_name=? WHERE id=?;", &newSongData.File_name, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
 	}
 
-	if newSongData.Title != "" {
-		_, err = tx.Exec("UPDATE songs SET title=? WHERE id=?;", newSongData.Title, songId.String())
+	if newSongData.Title != nil {
+		_, err = tx.Exec("UPDATE songs SET title=? WHERE id=?;", &newSongData.Title, songId.String())
 		if err != nil {
 			tx.Rollback()
 			return nil, err
