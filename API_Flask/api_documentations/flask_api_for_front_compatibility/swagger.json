@@ -1,0 +1,1646 @@
+{
+  "components": {
+    "schemas": {
+      "Conflict": {
+        "properties": {
+          "code": {
+            "default": 409,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Forbidden": {
+        "properties": {
+          "code": {
+            "default": 403,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "NotFound": {
+        "properties": {
+          "code": {
+            "default": 404,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Rating": {
+        "properties": {
+          "comment": {
+            "description": "Comment",
+            "type": "string"
+          },
+          "id": {
+            "description": "UUID",
+            "type": "string"
+          },
+          "rating": {
+            "description": "Rating",
+            "type": "integer"
+          },
+          "rating_date": {
+            "description": "Rating date",
+            "format": "date-time",
+            "type": "string"
+          },
+          "song_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "description": "User UUID",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RatingRegister": {
+        "properties": {
+          "comment": {
+            "description": "Comment",
+            "type": "string"
+          },
+          "rating": {
+            "description": "Rating",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "RatingUpdate": {
+        "properties": {
+          "comment": {
+            "description": "Comment",
+            "type": "string"
+          },
+          "rating": {
+            "description": "Rating",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "SomethingWentWrong": {
+        "properties": {
+          "code": {
+            "default": 500,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Song": {
+        "properties": {
+          "artist": {
+            "description": "Artist",
+            "type": "string"
+          },
+          "file_name": {
+            "description": "File name without extension",
+            "type": "string"
+          },
+          "id": {
+            "description": "UUID",
+            "type": "string"
+          },
+          "published_date": {
+            "description": "Publication date",
+            "format": "date-time",
+            "type": "string"
+          },
+          "ratings": {
+            "description": "Song's ratings",
+            "items": {
+              "$ref": "#/components/schemas/Rating"
+            },
+            "type": "array"
+          },
+          "title": {
+            "description": "Title",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SongRegister": {
+        "properties": {
+          "artist": {
+            "description": "Artist",
+            "type": "string"
+          },
+          "file_name": {
+            "description": "File name without extension",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SongUpdate": {
+        "properties": {
+          "artist": {
+            "description": "Artist",
+            "type": "string"
+          },
+          "file_name": {
+            "description": "File name without extension",
+            "type": "string"
+          },
+          "title": {
+            "description": "Title",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Unauthorized": {
+        "properties": {
+          "code": {
+            "default": 401,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UnprocessableEntity": {
+        "properties": {
+          "code": {
+            "default": 422,
+            "description": "HTTP code"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "User": {
+        "properties": {
+          "id": {
+            "description": "UUID",
+            "type": "string"
+          },
+          "inscription_date": {
+            "description": "Inscription date",
+            "format": "date-time",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name",
+            "type": "string"
+          },
+          "username": {
+            "description": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UserLogin": {
+        "properties": {
+          "password": {
+            "description": "Password",
+            "type": "string"
+          },
+          "username": {
+            "description": "Username",
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "username"
+        ],
+        "type": "object"
+      },
+      "UserRegister": {
+        "properties": {
+          "name": {
+            "description": "Name",
+            "type": "string"
+          },
+          "password": {
+            "description": "Password",
+            "type": "string"
+          },
+          "username": {
+            "description": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UserUpdate": {
+        "properties": {
+          "name": {
+            "description": "Name",
+            "type": "string"
+          },
+          "password": {
+            "description": "Password",
+            "type": "string"
+          },
+          "username": {
+            "description": "Username",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Tchipify",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.2",
+  "paths": {
+    "/introspect": {
+      "get": {
+        "description": "Getting authenticated user",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "auth",
+          "users"
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            },
+            "description": "Already logged in"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "auth",
+          "users"
+        ]
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "Logout",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "auth",
+          "users"
+        ]
+      }
+    },
+    "/register": {
+      "post": {
+        "description": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegister"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            },
+            "description": "Already logged in"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            },
+            "description": "User already exists"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "auth",
+          "users"
+        ]
+      }
+    },
+    "/songs/": {
+      "get": {
+        "description": "Getting all songs",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Song"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+      "post": {
+        "description": "Adding a song",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SongRegister"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      }
+    },
+    "/songs/{song_id}": {
+      "delete": {
+        "description": "Deleting a song",
+        "parameters": [
+          {
+            "description": "UUID of song id",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+      "get": {
+        "description": "Getting a song",
+        "parameters": [
+          {
+            "description": "UUID of song id",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      },
+      "put": {
+        "description": "Updating a song",
+        "parameters": [
+          {
+            "description": "UUID of song id",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SongUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Song"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "songs"
+        ]
+      }
+    },
+    "/songs/{song_id}/ratings": {
+      "get": {
+        "description": "Getting ratings of a song",
+        "parameters": [
+          {
+            "description": "UUID of song id",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating",
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "ratings",
+          "songs"
+        ]
+      },
+      "post": {
+        "description": "Adding a rating",
+        "parameters": [
+          {
+            "description": "UUID of song",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatingRegister"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "ratings",
+          "songs"
+        ]
+      }
+    },
+    "/songs/{song_id}/ratings/{rating_id}": {
+      "delete": {
+        "description": "Deleting one's rating",
+        "parameters": [
+          {
+            "description": "UUID of song",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          },
+          {
+            "description": "UUID of rating",
+            "in": "path",
+            "name": "rating_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            },
+            "description": "Forbidden, rating not theirs"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "ratings",
+          "songs"
+        ]
+      },
+      "get": {
+        "description": "Getting a specific rating",
+        "parameters": [
+          {
+            "description": "UUID of song",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          },
+          {
+            "description": "UUID of rating",
+            "in": "path",
+            "name": "rating_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "ratings",
+          "songs"
+        ]
+      },
+      "put": {
+        "description": "Updating one's rating",
+        "parameters": [
+          {
+            "description": "UUID of song",
+            "in": "path",
+            "name": "song_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          },
+          {
+            "description": "UUID of rating",
+            "in": "path",
+            "name": "rating_id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RatingUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Rating"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forbidden"
+                }
+              }
+            },
+            "description": "Forbidden, rating not theirs"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SomethingWentWrong"
+                }
+              }
+            },
+            "description": "Something went wrong"
+          }
+        },
+        "tags": [
+          "ratings",
+          "songs"
+        ]
+      }
+    },
+    "/users/": {
+      "get": {
+        "description": "Getting all users",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "delete": {
+        "description": "Deleting oneself",
+        "responses": {
+          "204": {
+            "description": "No content"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      },
+      "get": {
+        "description": "Getting a user",
+        "parameters": [
+          {
+            "description": "UUID of user id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      },
+      "put": {
+        "description": "Updating a user",
+        "parameters": [
+          {
+            "description": "UUID of user id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "uuidv4"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": "Ok"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              },
+              "application/yaml": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnprocessableEntity"
+                }
+              }
+            },
+            "description": "Unprocessable entity"
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "description": "Managing users",
+      "name": "users"
+    },
+    {
+      "description": "Managing songs",
+      "name": "songs"
+    },
+    {
+      "description": "Managing ratings",
+      "name": "ratings"
+    },
+    {
+      "description": "Managing authentication",
+      "name": "auth"
+    }
+  ]
+}

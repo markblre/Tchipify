@@ -1,0 +1,196 @@
+{
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "API to manage ratings.",
+    "title": "middleware/ratings",
+    "contact": {
+      "name": "Justine Bachelard.",
+      "email": "justine.bachelard@uca.fr"
+    },
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/songs/{songId}/ratings": {
+      "get": {
+        "description": "Get ratings.",
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get ratings.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/models.Rating"
+              }
+            }
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      },
+      "post": {
+        "description": "Add a rating.",
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Add a rating.",
+        "parameters": [
+          {
+            "description": "Rating",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Rating"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "422": {
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    },
+    "/songs/{songId}/ratings/{id}": {
+      "get": {
+        "description": "Get a rating.",
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Get a rating.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Rating UUID formatted ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/models.Rating"
+            }
+          },
+          "422": {
+            "description": "Cannot parse id"
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      },
+      "put": {
+        "description": "Update a rating.",
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Update a rating.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Rating UUID formatted ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Rating",
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/models.Rating"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "422": {
+            "description": "Unprocessable entity"
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete a rating.",
+        "tags": [
+          "ratings"
+        ],
+        "summary": "Delete a rating.",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Rating UUID formatted ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Rating deleted"
+          },
+          "422": {
+            "description": "Cannot parse id"
+          },
+          "500": {
+            "description": "Something went wrong"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "models.Rating": {
+      "type": "object",
+      "properties": {
+        "comment": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "rating_date": {
+          "type": "string"
+        },
+        "song_id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
