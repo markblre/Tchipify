@@ -26,7 +26,7 @@ func CtxSongID(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "song_id", songID)
+		ctx := context.WithValue(r.Context(), "songID", songID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -46,7 +46,7 @@ func CtxRatingID(next http.Handler) http.Handler {
 			return
 		}
 
-		ctx := context.WithValue(r.Context(), "rating_id", ratingID)
+		ctx := context.WithValue(r.Context(), "ratingID", ratingID)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

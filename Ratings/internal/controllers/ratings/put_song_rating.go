@@ -26,8 +26,8 @@ func PutSongRating(w http.ResponseWriter, r *http.Request) {
 	var ratingRequest models.RatingRequest
 
 	ctx := r.Context()
-	songID, _ := ctx.Value("song_id").(uuid.UUID)
-	ratingID, _ := ctx.Value("rating_id").(uuid.UUID)
+	songID, _ := ctx.Value("songID").(uuid.UUID)
+	ratingID, _ := ctx.Value("ratingID").(uuid.UUID)
 
 	err := json.NewDecoder(r.Body).Decode(&ratingRequest)
 	if err != nil {

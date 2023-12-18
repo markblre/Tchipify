@@ -22,8 +22,8 @@ import (
 // @Router       /songs/{song_id}/ratings/{rating_id} [get]
 func GetSongRating(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	songID, _ := ctx.Value("song_id").(uuid.UUID)
-	ratingID, _ := ctx.Value("rating_id").(uuid.UUID)
+	songID, _ := ctx.Value("songID").(uuid.UUID)
+	ratingID, _ := ctx.Value("ratingID").(uuid.UUID)
 
 	rating, err := ratings.GetSongRating(songID, ratingID)
 	if err != nil {
