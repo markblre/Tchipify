@@ -1,0 +1,140 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  models.Song:
+    properties:
+      artist:
+        type: string
+      file_name:
+        type: string
+      id:
+        type: string
+      published_date:
+        type: string
+      title:
+        type: string
+    type: object
+  models.SongRequest:
+    properties:
+      artist:
+        type: string
+      file_name:
+        type: string
+      title:
+        type: string
+    type: object
+info:
+  contact:
+    email: mark.ballereau@etu.uca.fr
+    name: Mark Ballereau.
+  description: API to manage songs.
+  title: Songs API
+  version: 1.0.0
+paths:
+  /songs:
+    get:
+      description: Get songs.
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Song'
+            type: array
+        "500":
+          description: Something went wrong
+      summary: Get songs.
+      tags:
+      - songs
+    post:
+      description: Post a song.
+      parameters:
+      - description: song request
+        in: body
+        name: songRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.SongRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Song'
+        "422":
+          description: missing fields
+        "500":
+          description: Something went wrong
+      summary: Post a song.
+      tags:
+      - songs
+  /songs/{id}:
+    delete:
+      description: Delete a song.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Delete a song.
+      tags:
+      - songs
+    get:
+      description: Get a song.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Song'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get a song.
+      tags:
+      - songs
+    put:
+      description: Modify a song.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: song request
+        in: body
+        name: songRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.SongRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Song'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Modify a song.
+      tags:
+      - songs
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
