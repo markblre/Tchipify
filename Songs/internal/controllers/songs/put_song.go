@@ -50,7 +50,7 @@ func PutSong(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	body, _ := json.Marshal(song)
 	_, _ = w.Write(body)
 	return
