@@ -23,7 +23,7 @@ import (
 // @Router       /songs/{id} [put]
 func PutSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	songId, _ := ctx.Value("songId").(uuid.UUID)
+	songID, _ := ctx.Value("songID").(uuid.UUID)
 
 	var newSongData models.SongRequest
 	err := json.NewDecoder(r.Body).Decode(&newSongData)
@@ -34,7 +34,7 @@ func PutSong(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	song, err := songs.ModifySong(songId, newSongData)
+	song, err := songs.ModifySong(songID, newSongData)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

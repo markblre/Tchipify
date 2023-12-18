@@ -20,9 +20,9 @@ import (
 // @Router       /songs/{id} [delete]
 func DeleteSong(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	songId, _ := ctx.Value("songId").(uuid.UUID)
+	songID, _ := ctx.Value("songID").(uuid.UUID)
 
-	err := songs.DeleteSong(songId)
+	err := songs.DeleteSong(songID)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

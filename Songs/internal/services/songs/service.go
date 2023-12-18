@@ -26,8 +26,8 @@ func GetAllSongs() ([]models.Song, error) {
 	return songs, nil
 }
 
-func GetSong(id uuid.UUID) (*models.Song, error) {
-	song, err := repository.GetSong(id)
+func GetSong(songID uuid.UUID) (*models.Song, error) {
+	song, err := repository.GetSong(songID)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
@@ -46,7 +46,7 @@ func GetSong(id uuid.UUID) (*models.Song, error) {
 }
 
 func AddSong(songRequest models.SongRequest) (*models.Song, error) {
-	if songRequest.Artist == nil || songRequest.File_name == nil || songRequest.Title == nil {
+	if songRequest.Artist == nil || songRequest.FileName == nil || songRequest.Title == nil {
 		return nil, &models.CustomError{
 			Message: "missing fields",
 			Code:    http.StatusUnprocessableEntity,
@@ -63,11 +63,11 @@ func AddSong(songRequest models.SongRequest) (*models.Song, error) {
 	}
 
 	newSong := models.Song{
-		Id:             id,
-		Artist:         *songRequest.Artist,
-		File_name:      *songRequest.File_name,
-		Published_date: time.Now(),
-		Title:          *songRequest.Title,
+		Id:            id,
+		Artist:        *songRequest.Artist,
+		FileName:      *songRequest.FileName,
+		PublishedDate: time.Now(),
+		Title:         *songRequest.Title,
 	}
 
 	err = repository.AddSong(newSong)
@@ -82,8 +82,8 @@ func AddSong(songRequest models.SongRequest) (*models.Song, error) {
 	return &newSong, err
 }
 
-func ModifySong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
-	song, err := repository.ModifySong(songId, newSongData)
+func ModifySong(songID uuid.UUID, newSongData models.SongRequest) (*models.Song, error) {
+	song, err := repository.ModifySong(songID, newSongData)
 	if err != nil {
 		if err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{
@@ -101,8 +101,8 @@ func ModifySong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song,
 	return song, err
 }
 
-func DeleteSong(id uuid.UUID) error {
-	err := repository.DeleteSong(id)
+func DeleteSong(songID uuid.UUID) error {
+	err := repository.DeleteSong(songID)
 	if err != nil {
 		logrus.Errorf("Error deleting song : %s", err.Error())
 		return &models.CustomError{
