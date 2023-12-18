@@ -1,0 +1,160 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  models.User:
+    properties:
+      date_inscription:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+  models.UserRequest:
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact:
+    email: Lena.combronde@etu.uca.fr
+    name: Lena COMBRONDE.
+  description: API to manage Users.
+  title: users
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get Users.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "500":
+          description: Something went wrong
+      summary: Get Users.
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: Post a User.
+      parameters:
+      - description: User
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "422":
+          description: missing fields
+        "500":
+          description: Something went wrong
+      summary: Post a User.
+      tags:
+      - Users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a User.
+      parameters:
+      - description: Collection UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: User not found
+        "500":
+          description: Something went wrong
+      summary: Delete a User.
+      tags:
+      - Users
+    get:
+      consumes:
+      - application/json
+      description: Get a User.
+      parameters:
+      - description: Collection UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get a User.
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Put a User.
+      parameters:
+      - description: Collection UUID formatted ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: User not found
+        "409":
+          description: User already exists
+        "422":
+          description: missing fields
+        "500":
+          description: Something went wrong
+      summary: Put a User.
+      tags:
+      - Users
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
