@@ -13,6 +13,13 @@ definitions:
       username:
         type: string
     type: object
+  models.UserRequest:
+    properties:
+      name:
+        type: string
+      username:
+        type: string
+    type: object
 info:
   contact:
     email: Lena.combronde@etu.uca.fr
@@ -50,7 +57,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.UserRequest'
       produces:
       - application/json
       responses:
@@ -127,7 +134,7 @@ paths:
         name: body
         required: true
         schema:
-          $ref: '#/definitions/models.User'
+          $ref: '#/definitions/models.UserRequest'
       produces:
       - application/json
       responses:

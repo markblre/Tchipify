@@ -16,7 +16,7 @@ import (
 // @Tags         Users
 // @Summary      Post a User.
 // @Description  Post a User.
-// @Param        body          		body   models.User    true  "User"
+// @Param        body          		body   models.UserRequest    true  "User"
 // @Success      200             {object}  models.User
 // @Failure      500             "Something went wrong"
 // @Failure      422             "missing fields"

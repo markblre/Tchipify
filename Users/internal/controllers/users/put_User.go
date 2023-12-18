@@ -18,7 +18,7 @@ import (
 // @Summary      Put a User.
 // @Description  Put a User.
 // @Param        id           	 path      string  true  "Collection UUID formatted ID"
-// @Param        body          		body   models.User    true  "User"
+// @Param        body          		body   models.UserRequest   true  "User"
 // @Success      200             {object}  models.User
 // @Failure      404             "User not found"
 // @Failure      500             "Something went wrong"

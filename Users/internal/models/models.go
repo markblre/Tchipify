@@ -12,4 +12,7 @@ type 	User struct {
 	DateInscription time.Time `json:"date_inscription"`
 }
 
-
+type UserRequest struct {
+	Name string     `json:"name"`
+	Username string     `json:"username"`
+}
