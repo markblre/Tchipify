@@ -1,0 +1,174 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  models.Rating:
+    properties:
+      comment:
+        type: string
+      id:
+        type: string
+      rating:
+        type: integer
+      rating_date:
+        type: string
+      song_id:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.RatingRequest:
+    properties:
+      comment:
+        type: string
+      rating:
+        type: integer
+      user_id:
+        type: string
+    type: object
+info:
+  contact:
+    email: mark.ballereau@etu.uca.fr
+    name: Mark Ballereau
+  description: API to manage ratings.
+  title: Ratings API
+  version: 1.0.0
+paths:
+  /songs/{song_id}/ratings:
+    get:
+      description: Get song ratings.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: song_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Rating'
+            type: array
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get song ratings.
+      tags:
+      - ratings
+    post:
+      description: Post a song rating.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: song_id
+        required: true
+        type: string
+      - description: rating request
+        in: body
+        name: ratingRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.RatingRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rating'
+        "422":
+          description: rating must be between 0 and 5
+        "500":
+          description: Something went wrong
+      summary: Post a song rating.
+      tags:
+      - ratings
+  /songs/{song_id}/ratings/{rating_id}:
+    delete:
+      description: Delete a song rating.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: song_id
+        required: true
+        type: string
+      - description: Rating UUID formatted ID
+        in: path
+        name: rating_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Delete a song rating.
+      tags:
+      - ratings
+    get:
+      description: Get a song rating.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: song_id
+        required: true
+        type: string
+      - description: Rating UUID formatted ID
+        in: path
+        name: rating_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rating'
+        "404":
+          description: Rating not found
+        "422":
+          description: Cannot parse id
+        "500":
+          description: Something went wrong
+      summary: Get a song rating.
+      tags:
+      - ratings
+    put:
+      description: Modify a song rating.
+      parameters:
+      - description: Song UUID formatted ID
+        in: path
+        name: song_id
+        required: true
+        type: string
+      - description: Rating UUID formatted ID
+        in: path
+        name: rating_id
+        required: true
+        type: string
+      - description: rating request
+        in: body
+        name: ratingRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.RatingRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Rating'
+        "404":
+          description: rating not found
+        "422":
+          description: rating must be between 0 and 5
+        "500":
+          description: Something went wrong
+      summary: Modify a song rating.
+      tags:
+      - ratings
+produces:
+- application/json
+schemes:
+- http
+swagger: "2.0"
