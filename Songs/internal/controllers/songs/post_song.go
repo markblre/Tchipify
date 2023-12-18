@@ -12,9 +12,7 @@ import (
 // @Tags         songs
 // @Summary      Post a song.
 // @Description  Post a song.
-// @Param        artist         header      string  true  "Artist of the song"
-// @Param        file_name      header      string  true  "Song file name"
-// @Param        title          header      string  true  "Title of the song"
+// @Param        songRequest	body  	  models.SongRequest 	true	"song request"
 // @Success      200            {object}  models.Song
 // @Failure      422            "missing fields"
 // @Failure      500            "Something went wrong"

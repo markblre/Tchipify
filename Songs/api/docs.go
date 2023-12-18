@@ -54,25 +54,13 @@ const docTemplate = `{
                 "summary": "Post a song.",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Artist of the song",
-                        "name": "artist",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Song file name",
-                        "name": "file_name",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Title of the song",
-                        "name": "title",
-                        "in": "header",
-                        "required": true
+                        "description": "song request",
+                        "name": "songRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SongRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -137,22 +125,13 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Artist of the song",
-                        "name": "artist",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Song file name",
-                        "name": "file_name",
-                        "in": "header"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Title of the song",
-                        "name": "title",
-                        "in": "header"
+                        "description": "song request",
+                        "name": "songRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SongRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -189,9 +168,6 @@ const docTemplate = `{
                     "204": {
                         "description": "No Content"
                     },
-                    "404": {
-                        "description": "Song not found"
-                    },
                     "422": {
                         "description": "Cannot parse id"
                     },
@@ -216,6 +192,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "published_date": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SongRequest": {
+            "type": "object",
+            "properties": {
+                "artist": {
+                    "type": "string"
+                },
+                "file_name": {
                     "type": "string"
                 },
                 "title": {

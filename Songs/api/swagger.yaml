@@ -15,6 +15,15 @@ definitions:
       title:
         type: string
     type: object
+  models.SongRequest:
+    properties:
+      artist:
+        type: string
+      file_name:
+        type: string
+      title:
+        type: string
+    type: object
 info:
   contact:
     email: mark.ballereau@etu.uca.fr
@@ -41,21 +50,12 @@ paths:
     post:
       description: Post a song.
       parameters:
-      - description: Artist of the song
-        in: header
-        name: artist
+      - description: song request
+        in: body
+        name: songRequest
         required: true
-        type: string
-      - description: Song file name
-        in: header
-        name: file_name
-        required: true
-        type: string
-      - description: Title of the song
-        in: header
-        name: title
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.SongRequest'
       responses:
         "200":
           description: OK
@@ -80,8 +80,6 @@ paths:
       responses:
         "204":
           description: No Content
-        "404":
-          description: Song not found
         "422":
           description: Cannot parse id
         "500":
@@ -117,18 +115,12 @@ paths:
         name: id
         required: true
         type: string
-      - description: Artist of the song
-        in: header
-        name: artist
-        type: string
-      - description: Song file name
-        in: header
-        name: file_name
-        type: string
-      - description: Title of the song
-        in: header
-        name: title
-        type: string
+      - description: song request
+        in: body
+        name: songRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.SongRequest'
       responses:
         "200":
           description: OK

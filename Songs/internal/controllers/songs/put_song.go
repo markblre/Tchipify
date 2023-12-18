@@ -14,9 +14,7 @@ import (
 // @Summary      Modify a song.
 // @Description  Modify a song.
 // @Param        id           	path      	string  true   "Song UUID formatted ID"
-// @Param        artist         header      string  false  "Artist of the song"
-// @Param        file_name      header      string  false  "Song file name"
-// @Param        title          header      string  false  "Title of the song"
+// @Param        songRequest 	body  		models.SongRequest 	true	"song request"
 // @Success      200            {object}  models.Song
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
