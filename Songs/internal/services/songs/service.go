@@ -72,7 +72,7 @@ func PostSong(songRequest models.SongRequest) (*models.Song, error) {
 
 	err = repository.PostSong(newSong)
 	if err != nil {
-		logrus.Errorf("Error adding and retrieving song : %s", err.Error())
+		logrus.Errorf("Error adding song : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    http.StatusInternalServerError,
