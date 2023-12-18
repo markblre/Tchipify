@@ -15,7 +15,6 @@ import (
 // @Description  Delete a song.
 // @Param        id           	path      string  true  "Song UUID formatted ID"
 // @Success      204            "No Content"
-// @Failure      404            "Song not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /songs/{id} [delete]

@@ -104,12 +104,6 @@ func PutSong(songId uuid.UUID, newSongData models.SongRequest) (*models.Song, er
 func DeleteSong(id uuid.UUID) error {
 	err := repository.DeleteSong(id)
 	if err != nil {
-		if err.Error() == sql.ErrNoRows.Error() {
-			return &models.CustomError{
-				Message: "song not found",
-				Code:    http.StatusNotFound,
-			}
-		}
 		logrus.Errorf("Error deleting song : %s", err.Error())
 		return &models.CustomError{
 			Message: "Something went wrong",
