@@ -45,6 +45,8 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	userURL := "/users/" + collections.Id.String()
+	w.Header().Set("Location", userURL)
 	w.WriteHeader(http.StatusCreated)
 	body, _ = json.Marshal(collections)
 	_, _ = w.Write(body) 
