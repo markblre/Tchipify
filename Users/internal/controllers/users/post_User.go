@@ -17,7 +17,7 @@ import (
 // @Summary      Post a User.
 // @Description  Post a User.
 // @Param        body          		body   models.UserRequest    true  "User"
-// @Success      200             {object}  models.User
+// @Success      201            {object}  models.User
 // @Failure      500             "Something went wrong"
 // @Failure      422             "missing fields"
 // @Router       /users [post]
@@ -45,7 +45,7 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	body, _ = json.Marshal(collections)
 	_, _ = w.Write(body) 
 	return
