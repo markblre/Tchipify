@@ -16,8 +16,7 @@ import (
 // @Param        id           	path      string  true  "Collection UUID formatted ID"
 // @Summary      Delete a User.
 // @Description  Delete a User.
-// @Success      200           
-// @Failure      404             "User not found"
+// @Success      204           
 // @Failure      500             "Something went wrong"
 // @Router        /users/{id} [delete]
 func DeleteUser(w http.ResponseWriter, r *http.Request) {

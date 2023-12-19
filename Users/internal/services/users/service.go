@@ -32,7 +32,7 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	if err != nil {
 		if  err.Error() == sql.ErrNoRows.Error() {
 			return nil, &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
-				Message: "collection not found",
+				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}
 		}
@@ -81,12 +81,6 @@ func PostAUser(user models.User) (*models.User, error) {
 func DeleteUserById(id uuid.UUID) ( error) {
 	err := repository.DeleteUserById(id)
 	if err != nil {
-		if err.Error() == sql.ErrNoRows.Error() {
-			return  &models.CustomError{ 
-				Message: "User not found",
-				Code:    http.StatusNotFound,
-			}
-		}
 		logrus.Errorf("error retrieving collections : %s", err.Error())
 		return  &models.CustomError{
 			Message: "Something went wrong",
