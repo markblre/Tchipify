@@ -127,3 +127,39 @@ def put_user(id):
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+
+@users.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_user(id):
+    """
+    ---
+    delete:
+      description: Delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of user id
+      responses:
+        '204':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+      tags:
+          - users
+    """
+    return users_service.delete_user(id)
+
+    

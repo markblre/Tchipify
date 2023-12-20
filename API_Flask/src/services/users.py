@@ -10,7 +10,7 @@ from src.models.http_exceptions import *
 import src.repositories.users as users_repository
 
 
-users_url = "http://localhost:4000/users/"  # URL de l'API users (golang)
+users_url = "http://localhost:8080/users/"  # URL de l'API users (golang)
 
 
 def get_user(id):
@@ -79,3 +79,7 @@ def get_user_from_db(username):
 
 def user_exists(username):
     return get_user_from_db(username) is not None
+
+def delete_user(id):
+    response = requests.request(method="DELETE", url=users_url+id)
+    return "", response.status_code
