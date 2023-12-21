@@ -26,6 +26,12 @@ def get_user(id):
             type: uuidv4
           required: true
           description: UUID of user id
+        #J'ai rajouté un requestBody je sais pas si il est correcte 
+      requestBody:
+        required: true
+        content:
+            application/json:
+                schema: User
       responses:
         '200':
           description: Ok
@@ -162,4 +168,38 @@ def delete_user(id):
     """
     return users_service.delete_user(id)
 
-    
+@users.route('/', methods=['GET'])
+def get_users():
+  print("cc1")
+  """
+    ---
+    get:
+      description: Getting users
+      parameters:
+        
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: User
+            application/yaml:
+              schema: User
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+      tags:
+          - users
+    """
+  return users_service.get_users()

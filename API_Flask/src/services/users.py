@@ -83,3 +83,7 @@ def user_exists(username):
 def delete_user(id):
     response = requests.request(method="DELETE", url=users_url+id)
     return "", response.status_code
+
+def get_users():
+  response = requests.request(method="GET", url=users_url)
+  return response.json(), response.status_code
