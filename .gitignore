@@ -1,1 +1,5 @@
 /.idea/
+/Ratings/ratings.db
+/Songs/songs.db
+/Users/users.db
+/API_Flask/instance/users.db
