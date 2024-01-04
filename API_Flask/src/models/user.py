@@ -25,5 +25,5 @@ class User(UserMixin, db.Model):
     @staticmethod
     def from_dict_with_clear_password(obj):
         username = obj.get("username") if obj.get("username") != "" else None
-        password = generate_password_hash(obj.get("password")) if obj.get("password") != "" else None
+        password = generate_password_hash(obj.get("password")) if obj.get("password") != "" and obj.get("password") is not None else None
         return User(None, username, password)
