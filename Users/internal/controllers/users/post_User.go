@@ -23,13 +23,13 @@ import (
 // @Router       /users [post]
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
-	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
+	body, err := ioutil.ReadAll(r.Body)
 	 if err != nil {
         panic(err)
     }
 	var t models.User
 	err = json.Unmarshal(body, &t)// je veux une structure go 
-	collections, err := users.PostAUser(t) 
+	Users, err := users.PostAUser(t) 
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -45,10 +45,10 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	userURL := "/users/" + collections.Id.String()
+	userURL := "/users/" + Users.Id.String()
 	w.Header().Set("Location", userURL)
 	w.WriteHeader(http.StatusCreated)
-	body, _ = json.Marshal(collections)
+	body, _ = json.Marshal(Users)
 	_, _ = w.Write(body) 
 	return
 }

@@ -31,7 +31,7 @@ func GetUserById(id uuid.UUID) (*models.User, error) {
 	collection, err := repository.GetCollectionById(id)
 	if err != nil {
 		if  err.Error() == sql.ErrNoRows.Error() {
-			return nil, &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
+			return nil, &models.CustomError{ 
 				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}

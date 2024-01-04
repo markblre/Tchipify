@@ -107,7 +107,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Collection UUID formatted ID",
+                        "description": "User UUID formatted ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -143,7 +143,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Collection UUID formatted ID",
+                        "description": "User UUID formatted ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -194,7 +194,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Collection UUID formatted ID",
+                        "description": "User UUID formatted ID",
                         "name": "id",
                         "in": "path",
                         "required": true

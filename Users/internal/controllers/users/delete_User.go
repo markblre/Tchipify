@@ -13,7 +13,7 @@ import (
 // @Accept       json
 // @Produce      json
 // @Tags         Users
-// @Param        id           	path      string  true  "Collection UUID formatted ID"
+// @Param        id           	path      string  true  "User UUID formatted ID"
 // @Summary      Delete a User.
 // @Description  Delete a User.
 // @Success      204           
@@ -21,9 +21,9 @@ import (
 // @Router        /users/{id} [delete]
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context() // context de la requête (on met l'id dans l'url)
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) 
+	UserId, _ := ctx.Value("UserId").(uuid.UUID) 
 
-	err := users.DeleteUserById(collectionId)
+	err := users.DeleteUserById(UserId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)

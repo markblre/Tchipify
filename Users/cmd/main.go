@@ -11,13 +11,12 @@ import (
 )
 
 func main() {
-	r := chi.NewRouter() // crée le routeur 
-//ce qui l'Api autorise de faire 
+	r := chi.NewRouter() 
 	r.Route("/users", func(r chi.Router) {
 		r.Get("/", users.GetUsers)
 		r.Post("/", users.PostUser)
 		r.Route("/{id}", func(r chi.Router) {
-			r.Use(users.Ctx) // le routeur appel la fonction 
+			r.Use(users.Ctx) 
 			r.Get("/", users.GetUser)
 			r.Delete("/", users.DeleteUser)
 			r.Put("/", users.PutUser)
@@ -28,7 +27,7 @@ func main() {
 	logrus.Fatalln(http.ListenAndServe(":8080", r))
 }
 
-func init() { // initialise la base de données 
+func init() { 
 	db, err := helpers.OpenDB()
 	if err != nil {
 		logrus.Fatalf("error while opening database : %s", err.Error())
