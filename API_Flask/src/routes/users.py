@@ -134,6 +134,7 @@ def put_user(id):
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
 
+
 @users.route('/<id>', methods=['DELETE'])
 @login_required
 def delete_user(id):
@@ -150,12 +151,7 @@ def delete_user(id):
           description: UUID of user id
       responses:
         '204':
-          description: Ok
-          content:
-            application/json:
-              schema: User
-            application/yaml:
-              schema: User
+          description: No content
         '401':
           description: Unauthorized
           content:
@@ -163,20 +159,32 @@ def delete_user(id):
               schema: Unauthorized
             application/yaml:
               schema: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: Forbidden
+            application/yaml:
+              schema: Forbidden
       tags:
           - users
     """
-    return users_service.delete_user(id)
+    try:
+        return users_service.delete_user(id)
+    except Forbidden:
+        error = ForbiddenSchema().loads(json.dumps({"message": "Can't delete other users"}))
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
+
 
 @users.route('/', methods=['GET'])
 def get_users():
-  print("cc1")
-  """
+    """
     ---
     get:
       description: Getting users
-      parameters:
-        
       responses:
         '200':
           description: Ok
@@ -202,4 +210,4 @@ def get_users():
       tags:
           - users
     """
-  return users_service.get_users()
+    return users_service.get_users()

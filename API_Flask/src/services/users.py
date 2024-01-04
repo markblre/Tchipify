@@ -80,10 +80,17 @@ def get_user_from_db(username):
 def user_exists(username):
     return get_user_from_db(username) is not None
 
+
 def delete_user(id):
+    if id != current_user.id:
+        raise Forbidden
+
     response = requests.request(method="DELETE", url=users_url+id)
-    return "", response.status_code
+    if response.status_code == 204:
+        users_repository.delete_user(id)
+    return "", 204
+
 
 def get_users():
-  response = requests.request(method="GET", url=users_url)
-  return response.json(), response.status_code
+    response = requests.request(method="GET", url=users_url)
+    return response.json(), response.status_code
