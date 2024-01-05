@@ -7,6 +7,7 @@ from apispec_webframeworks.flask import FlaskPlugin
 from src.schemas.user import *
 from src.schemas.user_auth import *
 from src.schemas.errors import *
+from src.schemas.song import *
 
 
 # Create an APISpec
@@ -29,6 +30,7 @@ spec.components.schema("NotFound", schema=NotFoundSchema)
 spec.components.schema("Conflict", schema=ConflictSchema)
 spec.components.schema("UnprocessableEntity", schema=UnprocessableEntitySchema)
 spec.components.schema("SomethingWentWrong", schema=SomethingWentWrongSchema)
+spec.components.schema("Song", schema=SongSchema)
 
 
 # add swagger tags that are used for endpoint annotation
