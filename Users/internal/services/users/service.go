@@ -101,7 +101,14 @@ func PutAUser(user models.User) (*models.User, error) {
         }
     }
 	err =repository.PutAUser(user)
+	
 	if err != nil {
+		if strings.Contains( err.Error(),"UNIQUE") {
+			return  nil,&models.CustomError{
+			  Message: "User already exists",
+			  Code:    409,
+			}
+		}
 		if err.Error() == sql.ErrNoRows.Error() {
 			return  nil,&models.CustomError{ 
 				Message: "User not found",

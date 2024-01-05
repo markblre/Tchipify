@@ -20,6 +20,7 @@ import (
 // @Success      201            {object}  models.User
 // @Failure      500             "Something went wrong"
 // @Failure      422             "missing fields"
+// @Failure      409             "User already exists"
 // @Router       /users [post]
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
