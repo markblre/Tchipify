@@ -6,7 +6,7 @@ import (
 	"middleware/example/internal/models"
 	
 )
-func GetAllCollections() ([]models.User, error) {
+func GetAllUsers() ([]models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
@@ -18,34 +18,34 @@ func GetAllCollections() ([]models.User, error) {
 	}
 
 	// parsing datas in object slice
-	collections := []models.User{}
+	Users := []models.User{}
 	for rows.Next() {
 		var data models.User
 		err = rows.Scan(&data.Id, &data.Name, &data.Username, &data.DateInscription)
 		if err != nil {
 			return nil, err
 		}
-		collections = append(collections, data)
+		Users = append(Users, data)
 	}
 	// don't forget to close rows
 	_ = rows.Close()
 
-	return collections, err
+	return Users, err
 }
 
-func GetCollectionById(id uuid.UUID) (*models.User, error) {
+func GetUserById(id uuid.UUID) (*models.User, error) {
 	db, err := helpers.OpenDB()
 	if err != nil {
 		return nil, err
 	}
 	row := db.QueryRow("SELECT * FROM Users WHERE id=?", id.String())
 	helpers.CloseDB(db)
-	var collection models.User
-	err = row.Scan(&collection.Id, &collection.Name, &collection.Username, &collection.DateInscription)
+	var User models.User
+	err = row.Scan(&User.Id, &User.Name, &User.Username, &User.DateInscription)
 	if err != nil {
 		return nil, err
 	}
-	return &collection, err
+	return &User, err
 }
 
 func PostAUser(user models.User) (error) {
