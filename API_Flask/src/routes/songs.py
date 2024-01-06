@@ -3,6 +3,7 @@ from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
 
+from src.helpers.content_negociation import content_negociation
 from src.schemas.errors import *
 import src.services.songs as songs_service
 from src.schemas.song import NewSongSchema, SongUpdateSchema
@@ -44,10 +45,10 @@ def get_songs():
           - songs
     """
     try:
-        return songs_service.get_songs()
+        return content_negociation(*songs_service.get_songs())
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
 
 @songs.route('/', methods=['POST'])
 @login_required
@@ -93,18 +94,17 @@ def post_song():
       tags:
           - songs
     """
-
     try:
         new_song = NewSongSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
 
     try:
-        return songs_service.create_song(new_song)
+        return content_negociation(*songs_service.create_song(new_song))
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
+        content_negociation(error, error.get("code"))
 
 @songs.route('/<id>', methods=['GET'])
 @login_required
@@ -160,10 +160,10 @@ def get_song(id):
           - songs
     """
     try:
-        return songs_service.get_song(id)
+        return content_negociation(*songs_service.get_song(id))
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
 
 @songs.route('/<id>', methods=['DELETE'])
 @login_required
@@ -207,10 +207,10 @@ def delete_song(id):
           - songs
     """
     try:
-        return songs_service.delete_song(id)
+        return content_negociation(*songs_service.delete_song(id))
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
 
 @songs.route('/<id>', methods=['PUT'])
 @login_required
@@ -274,10 +274,10 @@ def put_song(id):
         song_update = SongUpdateSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
 
     try:
-        return songs_service.modify_song(id, song_update)
+        return content_negociation(*songs_service.modify_song(id, song_update))
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return error, error.get("code")
+        return content_negociation(error, error.get("code"))
