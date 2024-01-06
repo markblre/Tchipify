@@ -251,6 +251,13 @@ def delete_rating(song_id, rating_id):
               schema: Unauthorized
             application/yaml:
               schema: Unauthorized
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: Forbidden
+            application/yaml:
+              schema: Forbidden
         '422':
           description: Unprocessable entity
           content:
@@ -271,6 +278,9 @@ def delete_rating(song_id, rating_id):
     """
     try:
         return ratings_service.delete_rating(song_id, rating_id)
+    except Forbidden:
+        error = ForbiddenSchema().loads("{}")
+        return error, error.get("code")
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")

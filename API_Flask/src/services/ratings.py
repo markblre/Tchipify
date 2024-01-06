@@ -39,6 +39,15 @@ def get_rating(song_id, rating_id):
     return response.json(), response.status_code
 
 def delete_rating(song_id, rating_id):
+    r_json, r_code = get_rating(song_id, rating_id)
+    if r_code != 404:
+        return "", 204
+    if r_code != 200:
+        return r_json, r_code
+
+    if r_json["user_id"] != current_user.id:
+        raise Forbidden
+
     response = requests.request(method="DELETE", url=get_ratings_url(song_id)+rating_id)
     if response.status_code != 204:
         return response.json(), response.status_code
