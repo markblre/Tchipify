@@ -21,3 +21,7 @@ def create_song(new_song):
         return response.json(), response.status_code
 
     return response.json(), response.status_code
+
+def get_song(id):
+    response = requests.request(method="GET", url=songs_url+id)
+    return response.json(), response.status_code

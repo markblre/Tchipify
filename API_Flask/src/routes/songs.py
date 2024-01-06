@@ -9,7 +9,6 @@ import src.services.songs as songs_service
 from src.schemas.song import NewSongSchema
 
 
-# from routes import users
 songs = Blueprint(name="songs", import_name=__name__)
 
 
@@ -96,3 +95,58 @@ def post_song():
     except SomethingWentWrong:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+
+@songs.route('/<id>', methods=['GET'])
+@login_required
+def get_song(id):
+    """
+    ---
+    get:
+      description: Getting a song
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: Song
+            application/yaml:
+              schema: Song
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - songs
+    """
+    return songs_service.get_song(id)
