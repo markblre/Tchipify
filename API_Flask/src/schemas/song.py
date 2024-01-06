@@ -30,3 +30,12 @@ class NewSongSchema(BaseSongSchema):
                 "file_name" not in data or data["file_name"] == "" or \
                 "title" not in data or data["title"] == "":
             raise ValidationError("['artist','file_name','title'] must all be specified")
+
+class SongUpdateSchema(BaseSongSchema):
+    @validates_schema
+    def validates_schemas(self, data, **kwargs):
+        if not (("artist" in data and data["artist"] != "") or
+                ("file_name" in data and data["file_name"] != "") or
+                ("title" in data and data["title"] != "")):
+            raise ValidationError("at least one of ['artist','file_name','title'] must be specified")
+

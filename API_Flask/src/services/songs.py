@@ -31,3 +31,12 @@ def delete_song(id):
     if response.status_code != 204:
         return response.json(), response.status_code
     return response.json(), 204
+
+def modify_song(id, song_update):
+    song_schema = SongSchema().loads(json.dumps(song_update), unknown=EXCLUDE)
+
+    response = requests.request(method="PUT", url=songs_url+id, json=song_schema)
+    if response.status_code != 200:
+        return response.json(), response.status_code
+
+    return response.json(), response.status_code
