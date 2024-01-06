@@ -37,7 +37,10 @@ def create_song(new_song):
     if response.status_code != 201:
         return response.json(), response.status_code
 
-    return response.json(), response.status_code
+    song_json_with_ratings = response.json()
+    song_json_with_ratings["ratings"], _ = ([], 200)
+
+    return song_json_with_ratings, response.status_code
 
 def get_song(id):
     from src.services.ratings import get_ratings
