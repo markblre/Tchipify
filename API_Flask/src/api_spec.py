@@ -31,12 +31,12 @@ spec.components.schema("NotFound", schema=NotFoundSchema)
 spec.components.schema("Conflict", schema=ConflictSchema)
 spec.components.schema("UnprocessableEntity", schema=UnprocessableEntitySchema)
 spec.components.schema("SomethingWentWrong", schema=SomethingWentWrongSchema)
-spec.components.schema("Song", schema=SongSchema)
-spec.components.schema("NewSong", schema=NewSongSchema)
-spec.components.schema("SongUpdate", schema=SongUpdateSchema)
 spec.components.schema("Rating", schema=RatingSchema)
 spec.components.schema("NewRating", schema=NewRatingSchema)
 spec.components.schema("RatingUpdate", schema=RatingUpdateSchema)
+spec.components.schema("Song", schema=SongSchema)
+spec.components.schema("NewSong", schema=NewSongSchema)
+spec.components.schema("SongUpdate", schema=SongUpdateSchema)
 
 
 # add swagger tags that are used for endpoint annotation

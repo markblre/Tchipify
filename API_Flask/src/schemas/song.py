@@ -1,12 +1,14 @@
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
+from src.schemas.ratings import RatingSchema
+
 
 class SongSchema(Schema):
     artist = fields.String(description="Artist of the song")
     file_name = fields.String(description="Song file name")
     id = fields.String(description="UUID")
     published_date = fields.DateTime(description="Published date")
-    ratings = fields.List(fields.String, description="Ratings of the song")  # TODO: renvoyer un tableau avec les notations en JSON
+    ratings = fields.List(fields.Nested(RatingSchema, many=True), description="List of ratings")
     title = fields.String(description="Title")
 
     @staticmethod

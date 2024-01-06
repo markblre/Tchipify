@@ -18,9 +18,17 @@ def song_exists(song_id):
     return False
 
 def get_songs():
+    from src.services.ratings import get_ratings
     response = requests.request(method="GET", url=songs_url)
-    # TODO: Ajouter les ratings dans la réponse
-    return response.json(), response.status_code
+    if response.status_code != 200:
+        return response.json(), response.status_code
+
+    songs_json_with_ratings = response.json()
+
+    for song in songs_json_with_ratings:
+        song["ratings"], _ = get_ratings(song["id"])
+
+    return songs_json_with_ratings, response.status_code
 
 def create_song(new_song):
     song_schema = SongSchema().loads(json.dumps(new_song), unknown=EXCLUDE)
