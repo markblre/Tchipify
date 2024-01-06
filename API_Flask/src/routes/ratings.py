@@ -1,10 +1,13 @@
-from flask import Blueprint
+import json
+
+from flask import Blueprint, request
 from flask_login import login_required
+from marshmallow import ValidationError
 
 from src.models.http_exceptions import NotFound, UnprocessableEntity
 from src.schemas.errors import *
 import src.services.ratings as ratings_service
-
+from src.schemas.ratings import NewRatingSchema
 
 ratings = Blueprint(name="ratings", import_name=__name__)
 
@@ -68,4 +71,73 @@ def get_ratings(song_id):
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
 
+@ratings.route('/', methods=['POST'])
+@login_required
+def post_rating(song_id):
+    """
+    ---
+    post:
+      description: Posting a rating
+      requestBody:
+        required: true
+        content:
+            application/json:
+                schema: NewRating
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: Rating
+            application/yaml:
+              schema: Rating
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '422':
+          description: Rating must be between 0 and 5
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - songs
+          - ratings
+    """
 
+    try:
+        new_rating = NewRatingSchema().loads(json_data=request.data.decode('utf-8'))
+    except ValidationError as e:
+        error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
+        return error, error.get("code")
+
+    try:
+        return ratings_service.create_rating(new_rating, song_id)
+    except NotFound:
+        error = NotFoundSchema().loads("{}")
+        return error, error.get("code")
+    except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads("{}")
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")

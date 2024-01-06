@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validates_schema, ValidationError
 
 
 class RatingSchema(Schema):
@@ -17,3 +17,15 @@ class RatingSchema(Schema):
             (not obj.get("rating_date") or obj.get("rating_date") == "") and \
             (not obj.get("song_id") or obj.get("song_id") == "") and \
             (not obj.get("user_id") or obj.get("user_id") == "")
+
+class BaseRatingSchema(Schema):
+    comment = fields.String(description="Comment of the rating")
+    rating = fields.Integer(description="Rating")
+
+
+class NewRatingSchema(BaseRatingSchema):
+    @validates_schema
+    def validates_schemas(self, data, **kwargs):
+        if "comment" not in data or data["comment"] == "" or \
+                "rating" not in data or data["rating"] == "":
+            raise ValidationError("['comment','rating'] must all be specified")
