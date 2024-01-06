@@ -61,10 +61,14 @@ def delete_song(id):
     return "", 204
 
 def modify_song(id, song_update):
+    from src.services.ratings import get_ratings
     song_schema = SongSchema().loads(json.dumps(song_update), unknown=EXCLUDE)
 
     response = requests.request(method="PUT", url=songs_url+id, json=song_schema)
     if response.status_code != 200:
         return response.json(), response.status_code
 
-    return response.json(), response.status_code
+    song_json_with_ratings = response.json()
+    song_json_with_ratings["ratings"], _ = get_ratings(id)
+
+    return song_json_with_ratings, response.status_code
