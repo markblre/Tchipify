@@ -151,7 +151,7 @@ def post_rating(song_id):
 
 @ratings.route('/<rating_id>', methods=['GET'])
 @login_required
-def get_song(song_id, rating_id):
+def get_rating(song_id, rating_id):
     """
     ---
     get:
@@ -223,7 +223,7 @@ def get_song(song_id, rating_id):
 
 @ratings.route('/<rating_id>', methods=['DELETE'])
 @login_required
-def delete_song(song_id, rating_id):
+def delete_rating(song_id, rating_id):
     """
     ---
     delete:
