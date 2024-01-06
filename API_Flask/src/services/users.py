@@ -86,9 +86,11 @@ def delete_user(id):
         raise Forbidden
 
     response = requests.request(method="DELETE", url=users_url+id)
-    if response.status_code == 204:
-        users_repository.delete_user(id)
+    if response.status_code != 204:
+        return response.json(), response.status_code
+    users_repository.delete_user(id)
     return "", 204
+
 
 
 def get_users():
