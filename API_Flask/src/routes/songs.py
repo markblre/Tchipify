@@ -3,7 +3,6 @@ from flask import Blueprint, request
 from flask_login import login_required
 from marshmallow import ValidationError
 
-from src.models.http_exceptions import *
 from src.schemas.errors import *
 import src.services.songs as songs_service
 from src.schemas.song import NewSongSchema
@@ -34,10 +33,21 @@ def get_songs():
               schema: Unauthorized
             application/yaml:
               schema: Unauthorized
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - songs
     """
-    return songs_service.get_songs()
+    try:
+        return songs_service.get_songs()
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
 
 @songs.route('/', methods=['POST'])
 @login_required
@@ -92,7 +102,7 @@ def post_song():
 
     try:
         return songs_service.create_song(new_song)
-    except SomethingWentWrong:
+    except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
 
@@ -149,7 +159,11 @@ def get_song(id):
       tags:
           - songs
     """
-    return songs_service.get_song(id)
+    try:
+        return songs_service.get_song(id)
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
 
 @songs.route('/<id>', methods=['DELETE'])
 @login_required
