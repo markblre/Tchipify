@@ -32,8 +32,16 @@ def create_song(new_song):
     return response.json(), response.status_code
 
 def get_song(id):
+    from src.services.ratings import get_ratings
+
     response = requests.request(method="GET", url=songs_url+id)
-    return response.json(), response.status_code
+    if response.status_code != 200:
+        return response.json(), response.status_code
+
+    song_json_with_ratings = response.json()
+    song_json_with_ratings["ratings"], _ = get_ratings(id)
+
+    return song_json_with_ratings, response.status_code
 
 def delete_song(id):
     response = requests.request(method="DELETE", url=songs_url+id)
