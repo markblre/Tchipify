@@ -37,3 +37,9 @@ def get_rating(song_id, rating_id):
         raise NotFound
     response = requests.request(method="GET", url=get_ratings_url(song_id)+rating_id)
     return response.json(), response.status_code
+
+def delete_rating(song_id, rating_id):
+    response = requests.request(method="DELETE", url=get_ratings_url(song_id)+rating_id)
+    if response.status_code != 204:
+        return response.json(), response.status_code
+    return "", 204

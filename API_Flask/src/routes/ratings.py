@@ -227,3 +227,57 @@ def get_song(song_id, rating_id):
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+
+@ratings.route('/<rating_id>', methods=['DELETE'])
+@login_required
+def delete_song(song_id, rating_id):
+    """
+    ---
+    delete:
+      description: Delete a rating
+      parameters:
+        - in: path
+          name: song_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
+        - in: path
+          name: rating_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of rating id
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - songs
+          - ratings
+    """
+    try:
+        return ratings_service.delete_rating(song_id, rating_id)
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
