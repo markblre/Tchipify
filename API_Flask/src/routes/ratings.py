@@ -113,13 +113,6 @@ def post_rating(song_id):
             application/yaml:
               schema: Unauthorized
         '422':
-          description: Rating must be between 0 and 5
-          content:
-            application/json:
-              schema: UnprocessableEntity
-            application/yaml:
-              schema: UnprocessableEntity
-        '422':
           description: Unprocessable entity
           content:
             application/json:
