@@ -19,6 +19,13 @@ def get_ratings(song_id):
     ---
     get:
       description: Getting ratings of a song
+      parameters:
+        - in: path
+          name: song_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
       responses:
         '200':
           description: Ok
@@ -78,6 +85,13 @@ def post_rating(song_id):
     ---
     post:
       description: Posting a rating
+      parameters:
+        - in: path
+          name: song_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
       requestBody:
         required: true
         content:
