@@ -150,3 +150,50 @@ def get_song(id):
           - songs
     """
     return songs_service.get_song(id)
+
+@songs.route('/<id>', methods=['DELETE'])
+@login_required
+def delete_song(id):
+    """
+    ---
+    delete:
+      description: Delete a song
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
+      responses:
+        '204':
+          description: No content
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - songs
+    """
+    try:
+        return songs_service.delete_song(id)
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")

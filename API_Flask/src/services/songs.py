@@ -25,3 +25,9 @@ def create_song(new_song):
 def get_song(id):
     response = requests.request(method="GET", url=songs_url+id)
     return response.json(), response.status_code
+
+def delete_song(id):
+    response = requests.request(method="DELETE", url=songs_url+id)
+    if response.status_code != 204:
+        return response.json(), response.status_code
+    return response.json(), 204
