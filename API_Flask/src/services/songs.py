@@ -3,10 +3,19 @@ import json
 import requests
 from marshmallow import EXCLUDE
 
+from src.models.http_exceptions import UnprocessableEntity
 from src.schemas.song import SongSchema
 
 songs_url = "http://localhost:8081/songs/"  # URL de l'API songs (golang)
 
+
+def song_exists(song_id):
+    response = requests.request(method="GET", url=songs_url+song_id)
+    if response.status_code == 200:
+        return True
+    elif response.status_code == 422:
+        raise UnprocessableEntity
+    return False
 
 def get_songs():
     response = requests.request(method="GET", url=songs_url)
