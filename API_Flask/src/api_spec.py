@@ -31,6 +31,7 @@ spec.components.schema("Conflict", schema=ConflictSchema)
 spec.components.schema("UnprocessableEntity", schema=UnprocessableEntitySchema)
 spec.components.schema("SomethingWentWrong", schema=SomethingWentWrongSchema)
 spec.components.schema("Song", schema=SongSchema)
+spec.components.schema("NewSong", schema=NewSongSchema)
 
 
 # add swagger tags that are used for endpoint annotation
