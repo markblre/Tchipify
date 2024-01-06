@@ -31,3 +31,9 @@ def create_rating(new_rating, song_id):
 
     response = requests.request(method="POST", url=get_ratings_url(song_id), json=rating_schema)
     return response.json(), response.status_code
+
+def get_rating(song_id, rating_id):
+    if not song_exists(song_id):
+        raise NotFound
+    response = requests.request(method="GET", url=get_ratings_url(song_id)+rating_id)
+    return response.json(), response.status_code

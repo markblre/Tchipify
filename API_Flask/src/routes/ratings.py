@@ -141,3 +141,75 @@ def post_rating(song_id):
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
         return error, error.get("code")
+
+@ratings.route('/<rating_id>', methods=['GET'])
+@login_required
+def get_song(song_id, rating_id):
+    """
+    ---
+    get:
+      description: Getting a rating of a song
+      parameters:
+        - in: path
+          name: song_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of song id
+        - in: path
+          name: rating_id
+          schema:
+            type: uuidv4
+          required: true
+          description: UUID of rating id
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema: Rating
+            application/yaml:
+              schema: Rating
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema: Unauthorized
+            application/yaml:
+              schema: Unauthorized
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: NotFound
+            application/yaml:
+              schema: NotFound
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
+      tags:
+          - songs
+          - ratings
+    """
+    try:
+        return ratings_service.get_rating(song_id, rating_id)
+    except NotFound:
+        error = NotFoundSchema().loads("{}")
+        return error, error.get("code")
+    except UnprocessableEntity:
+        error = UnprocessableEntitySchema().loads("{}")
+        return error, error.get("code")
+    except Exception:
+        error = SomethingWentWrongSchema().loads("{}")
+        return error, error.get("code")
