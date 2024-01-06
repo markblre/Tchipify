@@ -43,3 +43,20 @@ def delete_rating(song_id, rating_id):
     if response.status_code != 204:
         return response.json(), response.status_code
     return "", 204
+
+def modify_rating(song_id, rating_id, rating_update):
+    if not song_exists(song_id):
+        raise NotFound
+
+    r_json, r_code = get_rating(song_id, rating_id)
+    if r_code != 200:
+        return r_json, r_code
+
+    if r_json["user_id"] != current_user.id:
+        raise Forbidden
+
+    rating_schema = RatingSchema().loads(json.dumps(rating_update), unknown=EXCLUDE)
+
+    response = requests.request(method="PUT", url=get_ratings_url(song_id)+rating_id, json=rating_schema)
+
+    return response.json(), response.status_code

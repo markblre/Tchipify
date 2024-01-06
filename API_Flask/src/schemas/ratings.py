@@ -29,3 +29,11 @@ class NewRatingSchema(BaseRatingSchema):
         if "comment" not in data or data["comment"] == "" or \
                 "rating" not in data or data["rating"] == "":
             raise ValidationError("['comment','rating'] must all be specified")
+
+
+class RatingUpdateSchema(BaseRatingSchema):
+    @validates_schema
+    def validates_schemas(self, data, **kwargs):
+        if not (("comment" in data and data["comment"] != "") or
+                ("rating" in data and data["rating"] != "")):
+            raise ValidationError("at least one of ['comment','rating'] must be specified")

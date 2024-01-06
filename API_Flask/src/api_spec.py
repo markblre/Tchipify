@@ -36,6 +36,7 @@ spec.components.schema("NewSong", schema=NewSongSchema)
 spec.components.schema("SongUpdate", schema=SongUpdateSchema)
 spec.components.schema("Rating", schema=RatingSchema)
 spec.components.schema("NewRating", schema=NewRatingSchema)
+spec.components.schema("RatingUpdate", schema=RatingUpdateSchema)
 
 
 # add swagger tags that are used for endpoint annotation
