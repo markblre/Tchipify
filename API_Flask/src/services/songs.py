@@ -39,7 +39,7 @@ def delete_song(id):
     response = requests.request(method="DELETE", url=songs_url+id)
     if response.status_code != 204:
         return response.json(), response.status_code
-    return response.json(), 204
+    return "", 204
 
 def modify_song(id, song_update):
     song_schema = SongSchema().loads(json.dumps(song_update), unknown=EXCLUDE)
