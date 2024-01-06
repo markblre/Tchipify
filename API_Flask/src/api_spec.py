@@ -43,6 +43,10 @@ tags = [
     {
         "name": "auth",
         "description": "Managing authentication"
+    },
+    {
+        "name": "songs",
+        "description": "Managing songs"
     }
 ]
 
