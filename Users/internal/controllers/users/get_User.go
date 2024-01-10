@@ -17,6 +17,7 @@ import (
 // @Description  Get a User.
 // @Param        id           	path      string  true  "User UUID formatted ID"
 // @Success      200            {object}  models.User
+// @Failure      404            "User not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /users/{id} [get]

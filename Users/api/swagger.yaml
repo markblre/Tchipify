@@ -65,6 +65,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.User'
+        "409":
+          description: User already exists
         "422":
           description: missing fields
         "500":
@@ -78,7 +80,7 @@ paths:
       - application/json
       description: Delete a User.
       parameters:
-      - description: Collection UUID formatted ID
+      - description: User UUID formatted ID
         in: path
         name: id
         required: true
@@ -86,10 +88,8 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
-        "404":
-          description: User not found
+        "204":
+          description: No Content
         "500":
           description: Something went wrong
       summary: Delete a User.
@@ -100,7 +100,7 @@ paths:
       - application/json
       description: Get a User.
       parameters:
-      - description: Collection UUID formatted ID
+      - description: User UUID formatted ID
         in: path
         name: id
         required: true
@@ -112,6 +112,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.User'
+        "404":
+          description: User not found
         "422":
           description: Cannot parse id
         "500":
@@ -124,7 +126,7 @@ paths:
       - application/json
       description: Put a User.
       parameters:
-      - description: Collection UUID formatted ID
+      - description: User UUID formatted ID
         in: path
         name: id
         required: true

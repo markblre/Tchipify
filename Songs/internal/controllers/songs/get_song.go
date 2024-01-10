@@ -15,6 +15,7 @@ import (
 // @Description  Get a song.
 // @Param        id           	path      string  true  "Song UUID formatted ID"
 // @Success      200            {object}  models.Song
+// @Failure      404        	"Song not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /songs/{id} [get]

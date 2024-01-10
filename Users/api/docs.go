@@ -82,6 +82,9 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.User"
                         }
                     },
+                    "409": {
+                        "description": "User already exists"
+                    },
                     "422": {
                         "description": "missing fields"
                     },
@@ -119,6 +122,9 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.User"
                         }
+                    },
+                    "404": {
+                        "description": "User not found"
                     },
                     "422": {
                         "description": "Cannot parse id"
@@ -201,11 +207,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK"
-                    },
-                    "404": {
-                        "description": "User not found"
+                    "204": {
+                        "description": "No Content"
                     },
                     "500": {
                         "description": "Something went wrong"
