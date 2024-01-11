@@ -49,6 +49,13 @@ def login():
               schema: UnprocessableEntity
             application/yaml:
               schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - auth
           - users
@@ -91,6 +98,13 @@ def logout():
           description: Ok
         '401':
           description: Unauthorized
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - auth
           - users

@@ -27,12 +27,6 @@ def get_user(id):
             type: uuidv4
           required: true
           description: UUID of user id
-        #J'ai rajouté un requestBody je sais pas si il est correcte 
-      requestBody:
-        required: true
-        content:
-            application/json:
-                schema: User
       responses:
         '200':
           description: Ok
@@ -55,6 +49,20 @@ def get_user(id):
               schema: NotFound
             application/yaml:
               schema: NotFound
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema: UnprocessableEntity
+            application/yaml:
+              schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - users
     """
@@ -102,6 +110,13 @@ def put_user(id):
               schema: NotFound
             application/yaml:
               schema: NotFound
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema: Conflict
+            application/yaml:
+              schema: Conflict
         '422':
           description: Unprocessable entity
           content:
@@ -109,6 +124,13 @@ def put_user(id):
               schema: UnprocessableEntity
             application/yaml:
               schema: UnprocessableEntity
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - users
     """
@@ -167,6 +189,13 @@ def delete_user(id):
               schema: Forbidden
             application/yaml:
               schema: Forbidden
+        '500':
+          description: Something went wrong
+          content:
+            application/json:
+              schema: SomethingWentWrong
+            application/yaml:
+              schema: SomethingWentWrong
       tags:
           - users
     """
@@ -201,13 +230,13 @@ def get_users():
               schema: Unauthorized
             application/yaml:
               schema: Unauthorized
-        '404':
-          description: Not found
+        '500':
+          description: Something went wrong
           content:
             application/json:
-              schema: NotFound
+              schema: SomethingWentWrong
             application/yaml:
-              schema: NotFound
+              schema: SomethingWentWrong
       tags:
           - users
     """

@@ -13,7 +13,7 @@ import (
 // @Summary      Post a song.
 // @Description  Post a song.
 // @Param        songRequest	body  	  models.SongRequest 	true	"song request"
-// @Success      200            {object}  models.Song
+// @Success      201            {object}  models.Song
 // @Failure      422            "missing fields"
 // @Failure      500            "Something went wrong"
 // @Router       /songs [post]
