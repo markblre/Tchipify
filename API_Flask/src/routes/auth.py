@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from marshmallow import ValidationError
 from flask_login import login_user, logout_user, login_required, current_user
 
-from src.helpers.content_negociation import content_negociation
+from src.helpers.content_negotiation import content_negotiation
 from src.models.http_exceptions import *
 from src.schemas.errors import *
 from src.schemas.user_auth import UserLoginSchema, UserRegisterSchema
@@ -62,7 +62,7 @@ def login():
     """
     if current_user.is_authenticated:
         error = ForbiddenSchema().loads(json.dumps({"message": "Already logged in"}))
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
     # parser le body
     try:
@@ -70,20 +70,20 @@ def login():
         user_login = UserLoginSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
     # logger l'utilisateur
     try:
         user = auth_service.login(user_login)
     except (NotFound, Unauthorized):
         error = UnauthorizedSchema().loads("{}")
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
     except Exception:
         error = SomethingWentWrongSchema().loads("{}")
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
     login_user(user, remember=True)
-    return content_negociation("", 200)
+    return content_negotiation("", 200)
 
 
 @auth.route('/logout', methods=['POST'])
@@ -110,7 +110,7 @@ def logout():
           - users
     """
     logout_user()
-    return content_negociation("", 200)
+    return content_negotiation("", 200)
 
 
 @auth.route('/register', methods=['POST'])
@@ -173,24 +173,24 @@ def register():
     """
     if current_user.is_authenticated:
         error = ForbiddenSchema().loads(json.dumps({"message": "Already logged in"}))
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
     # parser le body
     try:
         user_register = UserRegisterSchema().loads(json_data=request.data.decode('utf-8'))
     except ValidationError as e:
         error = UnprocessableEntitySchema().loads(json.dumps({"message": e.messages.__str__()}))
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
     # enregistrer l'utilisateur
     try:
-        return content_negociation(*auth_service.register(user_register))
+        return content_negotiation(*auth_service.register(user_register))
     except Conflict:
         error = ConflictSchema().loads(json.dumps({"message": "User already exists"}))
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
     except SomethingWentWrong:
         error = SomethingWentWrongSchema().loads("{}")
-        return content_negociation(error, error.get("code"))
+        return content_negotiation(error, error.get("code"))
 
 
 #pour obtenir l'utilisateur connecté
@@ -220,4 +220,4 @@ def introspect():
           - auth
           - users
     """
-    return content_negociation(*users_service.get_user(current_user.id))
+    return content_negotiation(*users_service.get_user(current_user.id))
