@@ -40,7 +40,7 @@ def get_rating(song_id, rating_id):
 
 def delete_rating(song_id, rating_id):
     r_json, r_code = get_rating(song_id, rating_id)
-    if r_code != 404:
+    if r_code == 404:
         return "", 204
     if r_code != 200:
         return r_json, r_code
