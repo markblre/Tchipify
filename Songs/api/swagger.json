@@ -60,8 +60,8 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
@@ -97,6 +97,9 @@
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
+                    },
+                    "404": {
+                        "description": "Song not found"
                     },
                     "422": {
                         "description": "Cannot parse id"
@@ -136,6 +139,9 @@
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
+                    },
+                    "404": {
+                        "description": "Song not found"
                     },
                     "422": {
                         "description": "Cannot parse id"

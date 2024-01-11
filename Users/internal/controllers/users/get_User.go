@@ -15,17 +15,18 @@ import (
 // @Tags         Users
 // @Summary      Get a User.
 // @Description  Get a User.
-// @Param        id           	path      string  true  "Collection UUID formatted ID"
+// @Param        id           	path      string  true  "User UUID formatted ID"
 // @Success      200            {object}  models.User
+// @Failure      404            "User not found"
 // @Failure      422            "Cannot parse id"
 // @Failure      500            "Something went wrong"
 // @Router       /users/{id} [get]
 func GetUser(w http.ResponseWriter, r *http.Request) { // http.Request -> la requete http
 																// ResponseWriter -> contient la reponse 
 	ctx := r.Context() 
-	collectionId, _ := ctx.Value("collectionId").(uuid.UUID) 
+	UserId, _ := ctx.Value("UserId").(uuid.UUID) 
 
-	collection, err := users.GetUserById(collectionId)
+	User, err := users.GetUserById(UserId)
 	if err != nil {
 		logrus.Errorf("error : %s", err.Error())
 		customError, isCustom := err.(*models.CustomError)
@@ -40,7 +41,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) { // http.Request -> la req
 	}
 
 	w.WriteHeader(http.StatusOK) // -> met le statut de la requete 
-	body, _ := json.Marshal(collection) // -> Passer de string à json
-	_, _ = w.Write(body) // ecrit le body dans la réponse c'est à dire renvoie la collection 
+	body, _ := json.Marshal(User) // -> Passer de string à json
+	_, _ = w.Write(body) // ecrit le body dans la réponse 
 	return
 }

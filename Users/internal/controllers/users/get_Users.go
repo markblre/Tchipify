@@ -18,7 +18,7 @@ import (
 // @Router       /users [get]
 func GetUsers(w http.ResponseWriter, _ *http.Request) {
 	// calling service
-	collections, err := users.GetAllUsers()
+	Users, err := users.GetAllUsers()
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -36,7 +36,7 @@ func GetUsers(w http.ResponseWriter, _ *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	body, _ := json.Marshal(collections)
+	body, _ := json.Marshal(Users)
 	_, _ = w.Write(body)
 	return
 }

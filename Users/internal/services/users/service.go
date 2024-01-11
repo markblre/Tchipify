@@ -14,36 +14,36 @@ import (
 func GetAllUsers() ([]models.User, error) {
 	var err error
 	// calling repository
-	collections, err := repository.GetAllCollections()
+	Users, err := repository.GetAllUsers()
 	// managing errors
 	if err != nil {
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return collections, nil
+	return Users, nil
 }
 
 func GetUserById(id uuid.UUID) (*models.User, error) {
-	collection, err := repository.GetCollectionById(id)
+	User, err := repository.GetUserById(id)
 	if err != nil {
 		if  err.Error() == sql.ErrNoRows.Error() {
-			return nil, &models.CustomError{ // on peut renvoyer un nil que avec un pointeur 
-				Message: "collection not found",
+			return nil, &models.CustomError{ 
+				Message: "User not found",
 				Code:    http.StatusNotFound,
 			}
 		}
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return collection, err
+	return User, err
 }
 
 func PostAUser(user models.User) (*models.User, error) {
@@ -68,26 +68,20 @@ func PostAUser(user models.User) (*models.User, error) {
 				Code:    409,
 			}
 		}
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return repository.GetCollectionById(id)
+	return repository.GetUserById(id)
 }
 
 func DeleteUserById(id uuid.UUID) ( error) {
 	err := repository.DeleteUserById(id)
 	if err != nil {
-		if err.Error() == sql.ErrNoRows.Error() {
-			return  &models.CustomError{ 
-				Message: "User not found",
-				Code:    http.StatusNotFound,
-			}
-		}
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return  &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
@@ -107,7 +101,14 @@ func PutAUser(user models.User) (*models.User, error) {
         }
     }
 	err =repository.PutAUser(user)
+	
 	if err != nil {
+		if strings.Contains( err.Error(),"UNIQUE") {
+			return  nil,&models.CustomError{
+			  Message: "User already exists",
+			  Code:    409,
+			}
+		}
 		if err.Error() == sql.ErrNoRows.Error() {
 			return  nil,&models.CustomError{ 
 				Message: "User not found",
@@ -117,12 +118,12 @@ func PutAUser(user models.User) (*models.User, error) {
 	}
 	// managing errors
 	if err != nil {
-		logrus.Errorf("error retrieving collections : %s", err.Error())
+		logrus.Errorf("error retrieving Users : %s", err.Error())
 		return nil, &models.CustomError{
 			Message: "Something went wrong",
 			Code:    500,
 		}
 	}
 
-	return repository.GetCollectionById(*user.Id)
+	return repository.GetUserById(*user.Id)
 }

@@ -17,19 +17,20 @@ import (
 // @Summary      Post a User.
 // @Description  Post a User.
 // @Param        body          		body   models.UserRequest    true  "User"
-// @Success      200             {object}  models.User
+// @Success      201            {object}  models.User
 // @Failure      500             "Something went wrong"
 // @Failure      422             "missing fields"
+// @Failure      409             "User already exists"
 // @Router       /users [post]
 func PostUser(w http.ResponseWriter, r *http.Request) {
 	//il faut recuperer le format json dans le body de la requete 
-	body, err := ioutil.ReadAll(r.Body)//-> lit le body et renvoie des données
+	body, err := ioutil.ReadAll(r.Body)
 	 if err != nil {
         panic(err)
     }
 	var t models.User
 	err = json.Unmarshal(body, &t)// je veux une structure go 
-	collections, err := users.PostAUser(t) 
+	Users, err := users.PostAUser(t) 
 	if err != nil {
 		// logging error
 		logrus.Errorf("error : %s", err.Error())
@@ -45,8 +46,10 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	body, _ = json.Marshal(collections)
+	userURL := "/users/" + Users.Id.String()
+	w.Header().Set("Location", userURL)
+	w.WriteHeader(http.StatusCreated)
+	body, _ = json.Marshal(Users)
 	_, _ = w.Write(body) 
 	return
 }

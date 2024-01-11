@@ -57,8 +57,8 @@ paths:
         schema:
           $ref: '#/definitions/models.SongRequest'
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
             $ref: '#/definitions/models.Song'
         "422":
@@ -100,6 +100,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Song'
+        "404":
+          description: Song not found
         "422":
           description: Cannot parse id
         "500":
@@ -126,6 +128,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Song'
+        "404":
+          description: Song not found
         "422":
           description: Cannot parse id
         "500":

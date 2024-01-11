@@ -17,6 +17,7 @@ import (
 // @Param        songRequest 	body  		models.SongRequest 	true	"song request"
 // @Success      200            {object}  models.Song
 // @Failure      422            "Cannot parse id"
+// @Failure      404            "Song not found"
 // @Failure      500            "Something went wrong"
 // @Router       /songs/{id} [put]
 func PutSong(w http.ResponseWriter, r *http.Request) {

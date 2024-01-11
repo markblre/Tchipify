@@ -64,8 +64,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
@@ -101,6 +101,9 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
+                    },
+                    "404": {
+                        "description": "Song not found"
                     },
                     "422": {
                         "description": "Cannot parse id"
@@ -140,6 +143,9 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Song"
                         }
+                    },
+                    "404": {
+                        "description": "Song not found"
                     },
                     "422": {
                         "description": "Cannot parse id"
