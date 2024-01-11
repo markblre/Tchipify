@@ -161,7 +161,7 @@ async function addComment(data) {
     method: 'POST',
     data: dataToSend
   }
-  const {error} = await useAxios(authStore.authBaseUrl + 'songs/' + data.id + "/ratings", config)
+  const {error} = await useAxios(authStore.authBaseUrl + 'songs/' + data.id + "/ratings/", config)
   if (!error.value) {
     data.add_comment = ""
     data.add_rating = 1
